@@ -32,6 +32,9 @@
             textBox1 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // richTextBox1
@@ -67,17 +70,38 @@
             button2.Text = "Syntax";
             button2.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ButtonShadow;
+            panel1.Location = new Point(326, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(308, 232);
+            panel1.TabIndex = 4;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources.C_Typewriter2;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(70, 340);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(543, 136);
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(679, 450);
+            ClientSize = new Size(679, 505);
+            Controls.Add(pictureBox1);
+            Controls.Add(panel1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox1);
             Controls.Add(richTextBox1);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -88,5 +112,7 @@
         private TextBox textBox1;
         private Button button1;
         private Button button2;
+        private Panel panel1;
+        private PictureBox pictureBox1;
     }
 }

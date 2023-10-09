@@ -121,4 +121,10 @@
   <data name="adminlogo (10)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\adminlogo (10).jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="C#Typewriter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\C#Typewriter.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="C#Typewriter2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\C#Typewriter2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
