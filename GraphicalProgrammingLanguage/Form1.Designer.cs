@@ -28,12 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            textBox1 = new TextBox();
+            richTextBox1 = new RichTextBox();
+            SuspendLayout();
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(12, 274);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(260, 23);
+            textBox1.TabIndex = 2;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(12, 42);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(306, 205);
+            richTextBox1.TabIndex = 6;
+            richTextBox1.Text = "";
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(738, 511);
+            Controls.Add(richTextBox1);
+            Controls.Add(textBox1);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+        private TextBox textBox1;
+        private RichTextBox richTextBox1;
     }
 }

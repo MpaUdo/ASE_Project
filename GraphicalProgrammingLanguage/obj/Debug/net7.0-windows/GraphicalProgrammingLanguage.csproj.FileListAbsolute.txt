@@ -1,0 +1,17 @@
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.exe
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.deps.json
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.runtimeconfig.json
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.dll
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.Form1.resources
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.csproj.GenerateResource.cache
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.AssemblyInfoInputs.cache
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.AssemblyInfo.cs
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.csproj.CoreCompileInputs.cache
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.dll
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\refint\GraphicalProgrammingLanguage.dll
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.genruntimeconfig.cache
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\ref\GraphicalProgrammingLanguage.dll
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.Properties.Resources.resources
