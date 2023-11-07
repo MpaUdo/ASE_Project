@@ -28,91 +28,99 @@
         /// </summary>
         private void InitializeComponent()
         {
-            richTextBox1 = new RichTextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             textBox1 = new TextBox();
-            button1 = new Button();
+            btnRun = new Button();
             button2 = new Button();
-            panel1 = new Panel();
             pictureBox1 = new PictureBox();
+            textBox2 = new TextBox();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(24, 12);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(257, 232);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(24, 260);
+            textBox1.Location = new Point(24, 289);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(322, 23);
+            textBox1.Size = new Size(345, 23);
             textBox1.TabIndex = 1;
             // 
-            // button1
+            // btnRun
             // 
-            button1.Location = new Point(24, 298);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Run";
-            button1.UseVisualStyleBackColor = true;
+            btnRun.BackColor = Color.MediumOrchid;
+            btnRun.FlatStyle = FlatStyle.Popup;
+            btnRun.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRun.Location = new Point(24, 327);
+            btnRun.Name = "btnRun";
+            btnRun.Size = new Size(75, 23);
+            btnRun.TabIndex = 2;
+            btnRun.Text = "Run";
+            btnRun.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
-            button2.Location = new Point(127, 298);
+            button2.Location = new Point(124, 327);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 3;
             button2.Text = "Syntax";
             button2.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            panel1.BackColor = SystemColors.ButtonShadow;
-            panel1.Location = new Point(326, 12);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(308, 232);
-            panel1.TabIndex = 4;
-            // 
             // pictureBox1
             // 
-            pictureBox1.BackgroundImage = Properties.Resources.C_Typewriter2;
+            pictureBox1.BackColor = SystemColors.ControlDarkDark;
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(70, 340);
+            pictureBox1.Location = new Point(38, 356);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(543, 136);
+            pictureBox1.Size = new Size(555, 137);
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Location = new Point(24, 27);
+            textBox2.Multiline = true;
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(285, 244);
+            textBox2.TabIndex = 6;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = SystemColors.WindowFrame;
+            pictureBox2.Location = new Point(335, 27);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(274, 244);
+            pictureBox2.TabIndex = 7;
+            pictureBox2.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(679, 505);
+            ClientSize = new Size(648, 505);
+            Controls.Add(pictureBox2);
+            Controls.Add(textBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(panel1);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnRun);
             Controls.Add(textBox1);
-            Controls.Add(richTextBox1);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private RichTextBox richTextBox1;
         private TextBox textBox1;
-        private Button button1;
+        private Button btnRun;
         private Button button2;
-        private Panel panel1;
         private PictureBox pictureBox1;
+        private TextBox textBox2;
+        private PictureBox pictureBox2;
     }
 }
