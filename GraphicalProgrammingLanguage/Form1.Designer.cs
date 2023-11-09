@@ -34,10 +34,10 @@
             button2 = new Button();
             pictureBox1 = new PictureBox();
             textBoxCmdLine = new TextBox();
-            pictureBox2 = new PictureBox();
-            button1 = new Button();
+            pictureBoxDraw = new PictureBox();
+            btnClear = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).BeginInit();
             SuspendLayout();
             // 
             // textBox1
@@ -90,26 +90,28 @@
             textBoxCmdLine.Size = new Size(285, 244);
             textBoxCmdLine.TabIndex = 6;
             // 
-            // pictureBox2
+            // pictureBoxDraw
             // 
-            pictureBox2.BackColor = SystemColors.WindowFrame;
-            pictureBox2.Location = new Point(335, 27);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(274, 244);
-            pictureBox2.TabIndex = 7;
-            pictureBox2.TabStop = false;
+            pictureBoxDraw.BackColor = SystemColors.WindowFrame;
+            pictureBoxDraw.Location = new Point(335, 27);
+            pictureBoxDraw.Name = "pictureBoxDraw";
+            pictureBoxDraw.Size = new Size(274, 244);
+            pictureBoxDraw.TabIndex = 7;
+            pictureBoxDraw.TabStop = false;
+            pictureBoxDraw.Paint += pictureBoxDraw_Paint;
             // 
-            // button1
+            // btnClear
             // 
-            button1.BackColor = SystemColors.ActiveCaption;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(544, 318);
-            button1.Name = "button1";
-            button1.Size = new Size(65, 23);
-            button1.TabIndex = 8;
-            button1.Text = "Clear";
-            button1.UseVisualStyleBackColor = false;
+            btnClear.BackColor = SystemColors.ActiveCaption;
+            btnClear.FlatStyle = FlatStyle.Popup;
+            btnClear.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnClear.Location = new Point(544, 318);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(65, 23);
+            btnClear.TabIndex = 8;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // Form1
             // 
@@ -117,8 +119,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
             ClientSize = new Size(648, 505);
-            Controls.Add(button1);
-            Controls.Add(pictureBox2);
+            Controls.Add(btnClear);
+            Controls.Add(pictureBoxDraw);
             Controls.Add(textBoxCmdLine);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
@@ -128,7 +130,7 @@
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -139,7 +141,7 @@
         private Button button2;
         private PictureBox pictureBox1;
         private TextBox textBoxCmdLine;
-        private PictureBox pictureBox2;
-        private Button button1;
+        private PictureBox pictureBoxDraw;
+        private Button btnClear;
     }
 }
