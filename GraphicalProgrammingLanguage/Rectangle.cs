@@ -8,19 +8,25 @@ namespace GraphicalProgrammingLanguage
 {
     internal class Rectangle : Shape
     {
-        protected int width, height;
+        public int width, height;
 
-        public Rectangle(int x, int y, int w, int h)
+        public Rectangle(int x, int y, int w, int h, Color color) : base(x, y, color)
         {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
+            
+            width = w;
+            height = h;
         }
 
         public override void Draw(Graphics g)
         {
-            g.DrawRectangle(Pens.Red, x, y, width, height);
+            base.Draw(g);
+            using (var brush = new SolidBrush(Color))
+            {
+                Pen p = new Pen(Color.Black, 2);
+                //g.FillRectangle(brush, X, Y, width, height);
+                g.DrawRectangle(p, X, Y, width, height);
+                base.Draw(g);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,18 +10,23 @@ namespace GraphicalProgrammingLanguage
 {
     class Circle : Shape
     {
-        private int radius;
+        public int Radius { get; set; }
 
-        public Circle(int x, int y, int r)
+        public Circle(int x, int y, int radius, Color color) : base(x, y, color)
         {
-            this.x = x;
-            this.y = y;
-            this.radius = r;
+            Radius = radius;
         }
         public override void Draw(Graphics g)
         {
-            g.DrawEllipse(Pens.Black, x - radius, y - radius, 2 * radius, 2 * radius);
-            //base.Draw(g);
+            base.Draw(g);
+            using (var brush = new SolidBrush(Color))
+            {
+                Pen p = new Pen(Color.Black, 2);
+                SolidBrush b = new SolidBrush(Color);
+                //g.FillEllipse(brush, X - Radius, Y - Radius, 2 * Radius, 2 * Radius);
+                g.DrawEllipse(p, X, Y, Radius * 2, Radius * 2);
+                base.Draw(g);
+            }
         }
     }
 }

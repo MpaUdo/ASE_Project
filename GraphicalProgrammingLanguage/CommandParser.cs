@@ -8,12 +8,17 @@ namespace GraphicalProgrammingLanguage
 {
     internal class CommandParser
     {
-        private Graphics g;
+        private Graphics drawingGraphics;
+        private Point penPosition;
+        //private PenAndPointer penAndPointer;
 
         public CommandParser(Graphics graphics)
         {
-            g = graphics;
+            drawingGraphics = graphics;
+            penPosition = new Point(0, 0);
+            //penAndPointer = new PenAndPointer(graphics, penSize, penColor);
         }
+
         public void ExecuteCommands(string[] commands)
         {
             foreach (string command in commands)
@@ -24,25 +29,28 @@ namespace GraphicalProgrammingLanguage
 
         private void ExecuteCommand(string command)
         {
-            if (command.StartsWith("drawTo"))
+            // Update the pen position at the start of each command
+           // penPosition = new Point(0, 0);
+            if (command.StartsWith("drawto"))
             {
                 // Example: drawTo(100,100)
                 string[] parameters = ExtractParameters(command);
                 if (parameters.Length == 2 && int.TryParse(parameters[0], out int x) && int.TryParse(parameters[1], out int y))
                 {
-                    g.DrawLine(Pens.Black, g.ClipBounds.X, g.ClipBounds.Y, x, y);
+                    drawingGraphics.DrawLine(Pens.Black, penPosition, new Point(x, y));
+                    penPosition = new Point(x, y);
                 }
             }
-            else if (command.StartsWith("moveTo"))
+            else if (command.StartsWith("moveto"))
             {
                 // Example: moveTo(50,50)
                 string[] parameters = ExtractParameters(command);
                 if (parameters.Length == 2 && int.TryParse(parameters[0], out int x) && int.TryParse(parameters[1], out int y))
                 {
-                    g.TranslateTransform(x, y);
+                    penPosition = new Point(x, y);
                 }
             }
-            else if (command.StartsWith("triangle"))
+            else if (command.StartsWith("tri"))
             {
                 // Example: triangle(50,50)
                 string[] parameters = ExtractParameters(command);
@@ -50,14 +58,46 @@ namespace GraphicalProgrammingLanguage
                 {
                     Point[] points =
                     {
-                    new Point(0, 0),
-                    new Point(width, 0),
-                    new Point(width / 2, height)
+                    penPosition,
+                    new Point(penPosition.X + width / 2, penPosition.Y + height),
+                    new Point(penPosition.X + width, penPosition.Y),
+                    
                 };
-                    g.DrawPolygon(Pens.Black, points);
+                    drawingGraphics.DrawPolygon(Pens.Black, points);
+                   // penPosition = new Point(penPosition.X + width, penPosition.Y);
                 }
             }
-            // Add more commands as needed
+            else if (command.StartsWith("rec"))
+            {
+                // Example: rectangle(50, 30)
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
+                {
+                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
+                    //penPosition = new Point(penPosition.X + width, penPosition.Y);
+                }
+            }
+            else if (command.StartsWith("cir"))
+            {
+                // Example: circle(30)
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 1 && int.TryParse(parameters[0], out int radius))
+                {
+                    drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
+                   // penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
+                }
+            }
+            else if (command.StartsWith("sqr"))
+            {
+                // Example: square(20)
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 1 && int.TryParse(parameters[0], out int side))
+                {
+                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, side, side);
+                    penPosition = new Point(penPosition.X + side, penPosition.Y);
+                }
+            }
+            
         }
 
         private string[] ExtractParameters(string command)
@@ -71,6 +111,6 @@ namespace GraphicalProgrammingLanguage
             }
             return new string[0];
         }
-    
+
     }
 }
