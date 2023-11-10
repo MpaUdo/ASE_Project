@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             textBox1 = new TextBox();
-            btnRun = new Button();
+            BtnRun = new Button();
             button2 = new Button();
             pictureBox1 = new PictureBox();
-            textBoxCmdLine = new TextBox();
+            TextBoxCmdLine = new TextBox();
             pictureBoxDraw = new PictureBox();
             btnClear = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -47,17 +47,18 @@
             textBox1.Size = new Size(345, 23);
             textBox1.TabIndex = 1;
             // 
-            // btnRun
+            // BtnRun
             // 
-            btnRun.BackColor = SystemColors.ActiveCaption;
-            btnRun.FlatStyle = FlatStyle.Popup;
-            btnRun.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnRun.Location = new Point(38, 318);
-            btnRun.Name = "btnRun";
-            btnRun.Size = new Size(65, 23);
-            btnRun.TabIndex = 2;
-            btnRun.Text = "Run";
-            btnRun.UseVisualStyleBackColor = false;
+            BtnRun.BackColor = SystemColors.ActiveCaption;
+            BtnRun.FlatStyle = FlatStyle.Popup;
+            BtnRun.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            BtnRun.Location = new Point(38, 318);
+            BtnRun.Name = "BtnRun";
+            BtnRun.Size = new Size(65, 23);
+            BtnRun.TabIndex = 2;
+            BtnRun.Text = "Run";
+            BtnRun.UseVisualStyleBackColor = false;
+            BtnRun.Click += BtnRun_Click;
             // 
             // button2
             // 
@@ -82,20 +83,22 @@
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
             // 
-            // textBoxCmdLine
+            // TextBoxCmdLine
             // 
-            textBoxCmdLine.Location = new Point(24, 27);
-            textBoxCmdLine.Multiline = true;
-            textBoxCmdLine.Name = "textBoxCmdLine";
-            textBoxCmdLine.Size = new Size(285, 244);
-            textBoxCmdLine.TabIndex = 6;
+            TextBoxCmdLine.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            TextBoxCmdLine.Location = new Point(24, 27);
+            TextBoxCmdLine.Multiline = true;
+            TextBoxCmdLine.Name = "TextBoxCmdLine";
+            TextBoxCmdLine.Size = new Size(285, 244);
+            TextBoxCmdLine.TabIndex = 6;
+            TextBoxCmdLine.Tag = "";
             // 
             // pictureBoxDraw
             // 
             pictureBoxDraw.BackColor = SystemColors.WindowFrame;
-            pictureBoxDraw.Location = new Point(335, 27);
+            pictureBoxDraw.Location = new Point(337, 27);
             pictureBoxDraw.Name = "pictureBoxDraw";
-            pictureBoxDraw.Size = new Size(274, 244);
+            pictureBoxDraw.Size = new Size(285, 244);
             pictureBoxDraw.TabIndex = 7;
             pictureBoxDraw.TabStop = false;
             pictureBoxDraw.Paint += pictureBoxDraw_Paint;
@@ -121,14 +124,15 @@
             ClientSize = new Size(648, 505);
             Controls.Add(btnClear);
             Controls.Add(pictureBoxDraw);
-            Controls.Add(textBoxCmdLine);
+            Controls.Add(TextBoxCmdLine);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
-            Controls.Add(btnRun);
+            Controls.Add(BtnRun);
             Controls.Add(textBox1);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             MaximizeBox = false;
             Name = "Form1";
-            Text = "Form1";
+            Text = "Graphical Programming Language";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).EndInit();
             ResumeLayout(false);
@@ -137,10 +141,10 @@
 
         #endregion
         private TextBox textBox1;
-        private Button btnRun;
+        private Button BtnRun;
         private Button button2;
         private PictureBox pictureBox1;
-        private TextBox textBoxCmdLine;
+        private TextBox TextBoxCmdLine;
         private PictureBox pictureBoxDraw;
         private Button btnClear;
     }

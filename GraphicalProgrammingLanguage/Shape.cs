@@ -6,18 +6,23 @@ using System.Threading.Tasks;
 
 namespace GraphicalProgrammingLanguage
 {
-    internal class Shape
+     class Shape
     {
-        private int x;
-        private int y;
+        protected int x, y;
         //private int width;
         //private int height;
 
+        //public Shape(int x, int y)
+        
 
-        public virtual void Draw(Graphics graphics)
+            //this.colour = colour; //shape's colour
+            //this.x = x; //its x pos
+            //this.y = y; //its y pos
+            //can't provide anything else as "shape" is too general
+        
+        public virtual void Draw(Graphics g)
         {
             throw new NotImplementedException("This method should be overridden in derived classes.");
         }
-
     }
 }

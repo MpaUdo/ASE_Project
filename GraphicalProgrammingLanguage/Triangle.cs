@@ -8,16 +8,18 @@ namespace GraphicalProgrammingLanguage
 {
     internal class Triangle : Shape
     {
-        private Point[] points;
+        
+            private Point[] points;
 
-        public Triangle(Point[] pts)
-        {
-            points = pts;
-        }
+            public Triangle(Point[] pts)
+            {
+                points = pts;
+            }
 
-        public override void Draw(Graphics g)
-        {
-            g.DrawPolygon(Pens.Black, points);
-        }
+            public override void Draw(Graphics g)
+            {
+                g.DrawPolygon(Pens.Orange, points);
+            }
+        
     }
 }
