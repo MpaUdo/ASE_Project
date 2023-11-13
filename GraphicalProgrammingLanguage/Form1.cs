@@ -13,16 +13,20 @@ namespace GraphicalProgrammingLanguage
     public partial class Form1 : Form
     {
         private CommandParser commandParser;
+        private SaveFileDialog saveFileDialog;
+        private OpenFileDialog openFileDialog;
         public Form1()
         {
             InitializeComponent();
             commandParser = new CommandParser(pictureBoxDraw.CreateGraphics(), penSize: 5, penColor: Color.Red);
             TextBoxSCMDL.KeyDown += TextBoxSCMDL_KeyDown;
+            InitializeSaveFileDialog();
+            InitializeOpenFileDialog();
         }
 
         private void pictureBoxDraw_Paint(object sender, PaintEventArgs e)
         {
-            
+
         }
         private void btnClear_Click(object sender, EventArgs e)
         {
@@ -65,7 +69,7 @@ namespace GraphicalProgrammingLanguage
         {
             try
             {
-                string[] commands = command.Split(new char[] {}, StringSplitOptions.RemoveEmptyEntries);
+                string[] commands = command.Split(new char[] { }, StringSplitOptions.RemoveEmptyEntries);
                 commandParser.ExecuteCommands(commands);
             }
             catch (Exception ex)
@@ -76,6 +80,65 @@ namespace GraphicalProgrammingLanguage
             TextBoxSCMDL.Clear();
             TextBoxSCMDL.Focus();
         }
-    
+
+        private void InitializeSaveFileDialog()
+        {
+            saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                Title = "Save Text File",
+                DefaultExt = "txt",
+                AddExtension = true
+            };
+        }
+
+        private void InitializeOpenFileDialog()
+        {
+            openFileDialog = new OpenFileDialog
+            {
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                Title = "Open Text File",
+                DefaultExt = "txt",
+                AddExtension = true
+            };
+        }
+        private void ToolStripMenuItemopen_Click(object sender, EventArgs e)
+        {
+            OpenFile();
+        }
+
+        private void ToolStripMenuItemsave_Click(object sender, EventArgs e)
+        {
+            SaveFile();
+        }
+        private void SaveFile()
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllText(saveFileDialog.FileName, TextBoxCmdLine.Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void OpenFile()
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    TextBoxCmdLine.Text = File.ReadAllText(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error opening file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

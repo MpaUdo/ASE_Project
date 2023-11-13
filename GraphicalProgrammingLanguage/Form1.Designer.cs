@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             TextBoxSCMDL = new TextBox();
             BtnRun = new Button();
@@ -37,8 +38,13 @@
             pictureBoxDraw = new PictureBox();
             btnClear = new Button();
             labelTab = new Label();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            menuStrip1 = new MenuStrip();
+            ToolStripMenuItemopen = new ToolStripMenuItem();
+            ToolStripMenuItemsave = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // TextBoxSCMDL
@@ -129,12 +135,43 @@
             labelTab.TabIndex = 9;
             labelTab.Text = "An EDVAC computer 1949";
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ToolStripMenuItemopen, ToolStripMenuItemsave });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(648, 24);
+            menuStrip1.TabIndex = 11;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // ToolStripMenuItemopen
+            // 
+            ToolStripMenuItemopen.Font = new Font("Times New Roman", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            ToolStripMenuItemopen.Name = "ToolStripMenuItemopen";
+            ToolStripMenuItemopen.Size = new Size(46, 20);
+            ToolStripMenuItemopen.Text = "Open";
+            ToolStripMenuItemopen.Click += ToolStripMenuItemopen_Click;
+            // 
+            // ToolStripMenuItemsave
+            // 
+            ToolStripMenuItemsave.Font = new Font("Times New Roman", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            ToolStripMenuItemsave.Name = "ToolStripMenuItemsave";
+            ToolStripMenuItemsave.Size = new Size(41, 20);
+            ToolStripMenuItemsave.Text = "Save";
+            ToolStripMenuItemsave.Click += ToolStripMenuItemsave_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
             ClientSize = new Size(648, 525);
+            Controls.Add(menuStrip1);
             Controls.Add(labelTab);
             Controls.Add(btnClear);
             Controls.Add(pictureBoxDraw);
@@ -149,6 +186,8 @@
             Text = "Graphical Programming Language";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,5 +201,9 @@
         private PictureBox pictureBoxDraw;
         private Button btnClear;
         private Label labelTab;
+        private ContextMenuStrip contextMenuStrip1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem ToolStripMenuItemopen;
+        private ToolStripMenuItem ToolStripMenuItemsave;
     }
 }
