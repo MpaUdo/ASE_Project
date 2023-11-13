@@ -6,10 +6,10 @@ namespace GraphicalProgrammingLanguage
     /// Ejiamike's: <br></br>
     /// Parses and executes commands to draw shapes.
     /// </summary>
-    class CommandParser
+    public class CommandParser
     {
-        private Graphics drawingGraphics;
-        private Point penPosition;
+        public Graphics drawingGraphics;
+        public Point penPosition;
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandParser"/> class.
         /// </summary>
@@ -22,7 +22,7 @@ namespace GraphicalProgrammingLanguage
             {
                 throw new ArgumentNullException(nameof(graphics), "Graphics object cannot be null.");
             }
-            drawingGraphics = graphics;
+            this.drawingGraphics = graphics;
             penPosition = new Point(0, 0);
         }
         /// <summary>
@@ -53,7 +53,7 @@ namespace GraphicalProgrammingLanguage
         /// Executes a single drawing command.
         /// </summary>
         /// <param name="command">The command to execute.</param>
-        private void ExecuteCommand(string command)
+        public void ExecuteCommand(string command)
         {
             // Update the pen position at the start of each command
             // penPosition = new Point(0, 0);
@@ -95,7 +95,7 @@ namespace GraphicalProgrammingLanguage
                     Point[] points =
                     {
                     penPosition,
-                    new Point(penPosition.X + width, penPosition.Y),
+                    new Point(penPosition.X - width /2, penPosition.Y+height),
                     new Point(penPosition.X + width / 2, penPosition.Y + height)
                     };
                     drawingGraphics.DrawPolygon(Pens.Black, points);
