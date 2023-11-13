@@ -2,13 +2,21 @@
 
 namespace GraphicalProgrammingLanguage
 {
+    /// <summary>
+    /// Ejiamike's: <br></br>
+    /// Parses and executes commands to draw shapes.
+    /// </summary>
     class CommandParser
     {
         private Graphics drawingGraphics;
         private Point penPosition;
-        //private PenAndPointer penAndPointer;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandParser"/> class.
+        /// </summary>
+        /// <param name="graphics">The graphics surface on which to draw shapes.</param>
+        /// <summary>Point to serve for the cordinates</summary>
 
-        public CommandParser(Graphics graphics, int penSize = 1, Color? penColor = null)
+        public CommandParser(Graphics graphics)
         {
             if (graphics == null)
             {
@@ -16,9 +24,11 @@ namespace GraphicalProgrammingLanguage
             }
             drawingGraphics = graphics;
             penPosition = new Point(0, 0);
-            //penAndPointer = new PenAndPointer(graphics, penSize, penColor);
         }
-
+        /// <summary>
+        /// Commands to draw shapes.
+        /// </summary>
+        /// <param name="commands">An array of commands to execute.</param>
         public void ExecuteCommands(string[] commands)
         {
             foreach (string command in commands)
@@ -39,8 +49,10 @@ namespace GraphicalProgrammingLanguage
                 }
             }
         }
-        
-
+        /// <summary>
+        /// Executes a single drawing command.
+        /// </summary>
+        /// <param name="command">The command to execute.</param>
         private void ExecuteCommand(string command)
         {
             // Update the pen position at the start of each command
@@ -130,10 +142,22 @@ namespace GraphicalProgrammingLanguage
                 }
             }
             else
-        {
+            {
             throw new ArgumentException($"Unknown command: {command}");
+            }
+
+            /// <summary>
+            /// Example
+            /// </summary>
+            /// <param name="command">The command containing parameters.</param>
+            /// <returns>An array of parameter values.</returns>
+           
         }
-        }
+        /// <summary>
+        /// Extracts parameters from a command string.
+        /// </summary>
+        /// <param name="command">The command containing parameters.</param>
+        /// <returns>An array of parameter values.</returns>
         public void ClearPicBox()
         {
             drawingGraphics.Clear(Color.Gray);

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphicalProgrammingLanguage</name>
+    </assembly>
+    <members>
+        <member name="T:GraphicalProgrammingLanguage.CommandParser">
+            <summary>
+            Ejiamike's: <br></br>
+            Parses and executes commands to draw shapes.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.#ctor(System.Drawing.Graphics)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GraphicalProgrammingLanguage.CommandParser"/> class.
+            </summary>
+            <param name="graphics">The graphics surface on which to draw shapes.</param>
+            <summary>Point to serve for the cordinates</summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteCommands(System.String[])">
+            <summary>
+            Commands to draw shapes.
+            </summary>
+            <param name="commands">An array of commands to execute.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteCommand(System.String)">
+            <summary>
+            Executes a single drawing command.
+            </summary>
+            <param name="command">The command to execute.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ClearPicBox">
+            <summary>
+            Extracts parameters from a command string.
+            </summary>
+            <param name="command">The command containing parameters.</param>
+            <returns>An array of parameter values.</returns>
+        </member>
+        <member name="F:GraphicalProgrammingLanguage.Form1.components">
+            <summary>
+             Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Form1.Dispose(System.Boolean)">
+            <summary>
+             Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Form1.InitializeComponent">
+            <summary>
+             Required method for Designer support - do not modify
+             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Program.Main">
+            <summary>
+             The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgrammingLanguage.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.adminlogo__10_">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.C_Typewriter">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.C_Typewriter2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgrammingLanguage.ApplicationConfiguration">
+            <summary>
+             Bootstrap the application configuration.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.ApplicationConfiguration.Initialize">
+            <summary>
+             Bootstrap the application as follows:
+             <code>
+             global::System.Windows.Forms.Application.EnableVisualStyles();
+             global::System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+             global::System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            </code>
+            </summary>
+        </member>
+    </members>
+</doc>

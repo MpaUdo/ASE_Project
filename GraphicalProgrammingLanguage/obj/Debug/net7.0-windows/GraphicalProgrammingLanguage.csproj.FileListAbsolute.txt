@@ -36,3 +36,4 @@ C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalPro
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.genruntimeconfig.cache
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\ref\GraphicalProgrammingLanguage.dll
+C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GPLDocumentation.xml

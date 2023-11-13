@@ -18,7 +18,7 @@ namespace GraphicalProgrammingLanguage
         public Form1()
         {
             InitializeComponent();
-            commandParser = new CommandParser(pictureBoxDraw.CreateGraphics(), penSize: 5, penColor: Color.Red);
+            commandParser = new CommandParser(pictureBoxDraw.CreateGraphics());
             TextBoxSCMDL.KeyDown += TextBoxSCMDL_KeyDown;
             InitializeSaveFileDialog();
             InitializeOpenFileDialog();
