@@ -1,4 +1,6 @@
-﻿namespace GraphicalProgrammingLanguage
+﻿using System.Drawing;
+
+namespace GraphicalProgrammingLanguage
 {
     internal class CommandParser
     {
@@ -98,9 +100,12 @@
             {
                 // Example: rectangle(50, 30)
                 string[] parameters = ExtractParameters(command);
+                var brush = new SolidBrush(color: Color.Blue);
                 if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
                 {
                     drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
+                    drawingGraphics.FillRectangle(brush, penPosition.X, penPosition.Y, width, height);
+                    SolidBrush b = new SolidBrush(Color.Blue);
                     penPosition = new Point(width, height);
                 }
                 else
@@ -112,9 +117,11 @@
             {
                 // Example: circle(30)
                 string[] parameters = ExtractParameters(command);
+                var brush = new SolidBrush(color: Color.Green);
                 if (parameters.Length == 1 && int.TryParse(parameters[0], out int radius))
                 {
                     drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
+                    drawingGraphics.FillEllipse(brush, penPosition.X, penPosition.Y, radius * 2, radius * 2);
                     penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
                 }
                 else
@@ -142,7 +149,6 @@
                 return parameterString.Split(',');
             }
             return new string[0];
-            throw new ArgumentException("Invalid command format.");
         }
 
     }

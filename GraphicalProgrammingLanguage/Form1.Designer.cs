@@ -29,23 +29,26 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            textBox1 = new TextBox();
+            TextBoxSCMDL = new TextBox();
             BtnRun = new Button();
             button2 = new Button();
             pictureBox1 = new PictureBox();
             TextBoxCmdLine = new TextBox();
             pictureBoxDraw = new PictureBox();
             btnClear = new Button();
+            labelTab = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDraw).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // TextBoxSCMDL
             // 
-            textBox1.Location = new Point(24, 289);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(345, 23);
-            textBox1.TabIndex = 1;
+            TextBoxSCMDL.Location = new Point(24, 289);
+            TextBoxSCMDL.Name = "TextBoxSCMDL";
+            TextBoxSCMDL.PlaceholderText = "Single CommandLine";
+            TextBoxSCMDL.Size = new Size(233, 23);
+            TextBoxSCMDL.TabIndex = 1;
+            TextBoxSCMDL.KeyDown += TextBoxSCMDL_KeyDown;
             // 
             // BtnRun
             // 
@@ -86,19 +89,20 @@
             // TextBoxCmdLine
             // 
             TextBoxCmdLine.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            TextBoxCmdLine.Location = new Point(24, 27);
+            TextBoxCmdLine.Location = new Point(12, 27);
             TextBoxCmdLine.Multiline = true;
             TextBoxCmdLine.Name = "TextBoxCmdLine";
-            TextBoxCmdLine.Size = new Size(285, 244);
+            TextBoxCmdLine.PlaceholderText = "Enter Commands and Click Run";
+            TextBoxCmdLine.Size = new Size(289, 244);
             TextBoxCmdLine.TabIndex = 6;
             TextBoxCmdLine.Tag = "";
             // 
             // pictureBoxDraw
             // 
             pictureBoxDraw.BackColor = Color.Gray;
-            pictureBoxDraw.Location = new Point(337, 27);
+            pictureBoxDraw.Location = new Point(328, 27);
             pictureBoxDraw.Name = "pictureBoxDraw";
-            pictureBoxDraw.Size = new Size(285, 244);
+            pictureBoxDraw.Size = new Size(294, 244);
             pictureBoxDraw.TabIndex = 7;
             pictureBoxDraw.TabStop = false;
             pictureBoxDraw.Paint += pictureBoxDraw_Paint;
@@ -116,19 +120,29 @@
             btnClear.UseVisualStyleBackColor = false;
             btnClear.Click += btnClear_Click;
             // 
+            // labelTab
+            // 
+            labelTab.AutoSize = true;
+            labelTab.Location = new Point(241, 496);
+            labelTab.Name = "labelTab";
+            labelTab.Size = new Size(143, 15);
+            labelTab.TabIndex = 9;
+            labelTab.Text = "An EDVAC computer 1949";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
-            ClientSize = new Size(648, 505);
+            ClientSize = new Size(648, 525);
+            Controls.Add(labelTab);
             Controls.Add(btnClear);
             Controls.Add(pictureBoxDraw);
             Controls.Add(TextBoxCmdLine);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
             Controls.Add(BtnRun);
-            Controls.Add(textBox1);
+            Controls.Add(TextBoxSCMDL);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             MaximizeBox = false;
             Name = "Form1";
@@ -140,12 +154,13 @@
         }
 
         #endregion
-        private TextBox textBox1;
+        private TextBox TextBoxSCMDL;
         private Button BtnRun;
         private Button button2;
         private PictureBox pictureBox1;
         private TextBox TextBoxCmdLine;
         private PictureBox pictureBoxDraw;
         private Button btnClear;
+        private Label labelTab;
     }
 }
