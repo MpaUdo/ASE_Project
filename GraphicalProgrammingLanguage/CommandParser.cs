@@ -2,7 +2,7 @@
 
 namespace GraphicalProgrammingLanguage
 {
-    internal class CommandParser
+    class CommandParser
     {
         private Graphics drawingGraphics;
         private Point penPosition;

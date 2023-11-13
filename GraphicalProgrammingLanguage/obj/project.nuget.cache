@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "IKnv9bk2eVzL0YdCyrYLtgQs9B7o9b4NFKPgsoevbYOnspSFycPHjUVKL+qb3aa6cColNOnrclryhihxjZyPTw==",
+  "dgSpecHash": "p3fxDNQ4W0/f2UJHdZTJx4bFB4DPvI4V4G1MqWeNccYiQnhN2eVfMQcJgewrLr7o5jXKu0XY1D4cae+F61yGlQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\NWA_ERI EJIAMIKE\\source\\repos\\GraphicalProgrammingLanguage\\GraphicalProgrammingLanguage\\GraphicalProgrammingLanguage.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\NWA_ERI EJIAMIKE\\.nuget\\packages\\mstest.testadapter\\3.1.1\\mstest.testadapter.3.1.1.nupkg.sha512",
+    "C:\\Users\\NWA_ERI EJIAMIKE\\.nuget\\packages\\mstest.testframework\\3.1.1\\mstest.testframework.3.1.1.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -39,6 +39,9 @@ namespace GraphicalProgrammingLanguage
         {
             try
             {
+                commandParser.ClearPicBox();
+                pictureBoxDraw.Refresh();
+
                 // Get the text from the TextBox
                 string textToDisplay = TextBoxCmdLine.Text.ToLower().Trim();
                 string[] commands = TextBoxCmdLine.Text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
