@@ -1,67 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace GraphicalProgrammingLanguage
-{
-    internal class PenAndPointer
-    {
-        private Graphics graphics;
-        private Point penPosition;
-        private int penSize;
-        private Color penColor;
+//namespace GraphicalProgrammingLanguage
+//{
+//    internal class PenAndPointer
+//    {
+//        private Graphics graphics;
+//        private Point penPosition;
+//        private int penSize;
+//        private Color penColor;
 
-        public PenAndPointer(Graphics graphics, int penSize = 1, Color? penColor = null)
-        {
-            this.graphics = graphics;
-            this.penPosition = new Point(0, 0);
-            this.penSize = penSize;
-            this.penColor = penColor ?? Color.Black;
-        }
+//        public PenAndPointer(Graphics graphics, int penSize = 1, Color? penColor = null)
+//        {
+//            this.graphics = graphics;
+//            this.penPosition = new Point(0, 0);
+//            this.penSize = penSize;
+//            this.penColor = penColor ?? Color.Black;
+//        }
 
-        public void DrawLineTo(int x, int y)
-        {
-            using (Pen pen = new Pen(penColor, penSize))
-            {
-                graphics.DrawLine(pen, penPosition, new Point(x, y));
-                penPosition = new Point(x, y);
-            }
-        }
+//        public void DrawLineTo(int x, int y)
+//        {
+//            using (Pen pen = new Pen(penColor, penSize))
+//            {
+//                graphics.DrawLine(pen, penPosition, new Point(x, y));
+//                penPosition = new Point(x, y);
+//            }
+//        }
 
-        //public void MoveTo(int x, int y)
-        //{
-        //    penPosition = new Point(x, y);
-        //}
+//        public void MoveTo(int x, int y)
+//        {
+//            penPosition = new Point(x, y);
+//        }
 
-        //public void DrawCircle(int radius)
-        //{
-        //    using (Pen pen = new Pen(penColor, penSize))
-        //    {
-        //        graphics.DrawEllipse(pen, penPosition.X, penPosition.Y, radius * 2, radius * 2);
-        //        penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
-        //    }
-        //}
+//        public void DrawCircle(int radius)
+//        {
+//            using (Pen pen = new Pen(penColor, penSize))
+//            {
+//                graphics.DrawEllipse(pen, penPosition.X, penPosition.Y, radius * 2, radius * 2);
+//                penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
+//            }
+//        }
 
-        //public void DrawRectangle(int width, int height)
-        //{
-        //    using (Pen pen = new Pen(penColor, penSize))
-        //    {
-        //        graphics.DrawRectangle(pen, penPosition.X, penPosition.Y, width, height);
-        //        penPosition = new Point(penPosition.X + width, penPosition.Y);
-        //    }
-        //}
+//        public void DrawRectangle(int width, int height)
+//        {
+//            using (Pen pen = new Pen(penColor, penSize))
+//            {
+//                graphics.DrawRectangle(pen, penPosition.X, penPosition.Y, width, height);
+//                penPosition = new Point(penPosition.X + width, penPosition.Y);
+//            }
+//        }
 
-        public void DrawPointer()
-        {
-            // Draw a small circle at the current pen position to represent the pointer
-            using (SolidBrush brush = new SolidBrush(penColor))
-            {
-                graphics.FillEllipse(brush, penPosition.X - penSize, penPosition.Y - penSize, penSize * 2, penSize * 2);
-            }
-        }
-    }
+//        public void DrawPointer()
+//        {
+//            //Draw a small circle at the current pen position to represent the pointer
+//            using (SolidBrush brush = new SolidBrush(penColor))
+//            {
+//                graphics.FillEllipse(brush, penPosition.X - penSize, penPosition.Y - penSize, penSize * 2, penSize * 2);
+//            }
+//        }
+//    }
 
 //    public class CommandParser
 //    {
@@ -82,7 +82,7 @@ namespace GraphicalProgrammingLanguage
 
 //        private void ExecuteCommand(string command)
 //        {
-//            if (command.StartsWith("drawTo"))
+//            if (command.StartsWith("drawto"))
 //            {
 //                // Example: drawTo(100,100)
 //                string[] parameters = ExtractParameters(command);
@@ -91,7 +91,7 @@ namespace GraphicalProgrammingLanguage
 //                    penAndPointer.DrawLineTo(x, y);
 //                }
 //            }
-//            else if (command.StartsWith("moveTo"))
+//            else if (command.StartsWith("moveto"))
 //            {
 //                // Example: moveTo(50,50)
 //                string[] parameters = ExtractParameters(command);
@@ -100,12 +100,12 @@ namespace GraphicalProgrammingLanguage
 //                    penAndPointer.MoveTo(x, y);
 //                }
 //            }
-//            else if (command.StartsWith("triangle"))
+//            else if (command.StartsWith("tri"))
 //            {
 //                // Example: triangle(50,50)
 //                // Implement triangle drawing logic here
 //            }
-//            else if (command.StartsWith("rectangle"))
+//            else if (command.StartsWith("rec"))
 //            {
 //                // Example: rectangle(50, 30)
 //                string[] parameters = ExtractParameters(command);
@@ -114,7 +114,7 @@ namespace GraphicalProgrammingLanguage
 //                    penAndPointer.DrawRectangle(width, height);
 //                }
 //            }
-//            else if (command.StartsWith("circle"))
+//            else if (command.StartsWith("cir"))
 //            {
 //                // Example: circle(30)
 //                string[] parameters = ExtractParameters(command);
@@ -123,7 +123,7 @@ namespace GraphicalProgrammingLanguage
 //                    penAndPointer.DrawCircle(radius);
 //                }
 //            }
-//            else if (command.StartsWith("square"))
+//            else if (command.StartsWith("sqr"))
 //            {
 //                // Example: square(20)
 //                // Implement square drawing logic here
@@ -141,8 +141,8 @@ namespace GraphicalProgrammingLanguage
 //                return parameterString.Split(',');
 //            }
 //            return new string[0];
-        
-//    }
 
+//        }
+
+//    }
 //}
-}

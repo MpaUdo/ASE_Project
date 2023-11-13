@@ -95,7 +95,7 @@
             // 
             // pictureBoxDraw
             // 
-            pictureBoxDraw.BackColor = SystemColors.WindowFrame;
+            pictureBoxDraw.BackColor = Color.Gray;
             pictureBoxDraw.Location = new Point(337, 27);
             pictureBoxDraw.Name = "pictureBoxDraw";
             pictureBoxDraw.Size = new Size(285, 244);

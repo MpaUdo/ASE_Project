@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GraphicalProgrammingLanguage
+﻿namespace GraphicalProgrammingLanguage
 {
     internal class CommandParser
     {
@@ -12,8 +6,12 @@ namespace GraphicalProgrammingLanguage
         private Point penPosition;
         //private PenAndPointer penAndPointer;
 
-        public CommandParser(Graphics graphics)
+        public CommandParser(Graphics graphics, int penSize = 1, Color? penColor = null)
         {
+            if (graphics == null)
+            {
+                throw new ArgumentNullException(nameof(graphics), "Graphics object cannot be null.");
+            }
             drawingGraphics = graphics;
             penPosition = new Point(0, 0);
             //penAndPointer = new PenAndPointer(graphics, penSize, penColor);
@@ -23,14 +21,29 @@ namespace GraphicalProgrammingLanguage
         {
             foreach (string command in commands)
             {
-                ExecuteCommand(command.Trim());
+                try
+                {
+                    ExecuteCommand(command.Trim());
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"ArgumentException: {ex.Message}");
+                    // Log or handle the specific exception
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error executing command '{command}': {ex.Message}");
+                    // Log or handle the general exception
+                }
             }
         }
+        
 
         private void ExecuteCommand(string command)
         {
             // Update the pen position at the start of each command
-           // penPosition = new Point(0, 0);
+            // penPosition = new Point(0, 0);
+            
             if (command.StartsWith("drawto"))
             {
                 // Example: drawTo(100,100)
@@ -39,6 +52,10 @@ namespace GraphicalProgrammingLanguage
                 {
                     drawingGraphics.DrawLine(Pens.Black, penPosition, new Point(x, y));
                     penPosition = new Point(x, y);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for drawto command.");
                 }
             }
             else if (command.StartsWith("moveto"))
@@ -49,22 +66,32 @@ namespace GraphicalProgrammingLanguage
                 {
                     penPosition = new Point(x, y);
                 }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for moveto command.");
+                }
             }
             else if (command.StartsWith("tri"))
             {
                 // Example: triangle(50,50)
                 string[] parameters = ExtractParameters(command);
+                var brush = new SolidBrush(color: Color.Red);
                 if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
                 {
                     Point[] points =
                     {
                     penPosition,
-                    new Point(penPosition.X + width / 2, penPosition.Y + height),
                     new Point(penPosition.X + width, penPosition.Y),
-                    
-                };
+                    new Point(penPosition.X + width / 2, penPosition.Y + height)
+                    };
                     drawingGraphics.DrawPolygon(Pens.Black, points);
-                   // penPosition = new Point(penPosition.X + width, penPosition.Y);
+                    drawingGraphics.FillPolygon(brush, points);
+                    SolidBrush b = new SolidBrush(Color.Red);
+                    penPosition = new Point(penPosition.X + width, penPosition.Y + width);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for tri command.");
                 }
             }
             else if (command.StartsWith("rec"))
@@ -74,7 +101,11 @@ namespace GraphicalProgrammingLanguage
                 if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
                 {
                     drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
-                    //penPosition = new Point(penPosition.X + width, penPosition.Y);
+                    penPosition = new Point(width, height);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for rec command.");
                 }
             }
             else if (command.StartsWith("cir"))
@@ -84,22 +115,23 @@ namespace GraphicalProgrammingLanguage
                 if (parameters.Length == 1 && int.TryParse(parameters[0], out int radius))
                 {
                     drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
-                   // penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
+                    penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
                 }
-            }
-            else if (command.StartsWith("sqr"))
-            {
-                // Example: square(20)
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 1 && int.TryParse(parameters[0], out int side))
+                else
                 {
-                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, side, side);
-                    penPosition = new Point(penPosition.X + side, penPosition.Y);
+                    throw new ArgumentException("Invalid parameters for cir command.");
                 }
             }
-            
+            else
+        {
+            throw new ArgumentException($"Unknown command: {command}");
         }
-
+        }
+        public void ClearPicBox()
+        {
+            drawingGraphics.Clear(Color.Gray);
+            penPosition = new Point(0, 0);
+        }
         private string[] ExtractParameters(string command)
         {
             int startIndex = command.IndexOf('(') + 1;
@@ -110,6 +142,7 @@ namespace GraphicalProgrammingLanguage
                 return parameterString.Split(',');
             }
             return new string[0];
+            throw new ArgumentException("Invalid command format.");
         }
 
     }
