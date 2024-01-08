@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using System.Data;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace GraphicalProgrammingLanguage
 {
@@ -11,8 +14,11 @@ namespace GraphicalProgrammingLanguage
         private Graphics drawingGraphics;
         private Point penPosition;
         private Dictionary<string, int> variables;
+        private Dictionary<string, string> functions = new Dictionary<string, string>();
+        private Color currentColor = Color.Black;
+        private double currentRotationAngle;
+        private Random random = new Random();
         //private PenAndPointer penAndPointer;
-
         private SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public CommandParser(Graphics graphics, int penSize = 1, Color? penColor = null)
@@ -27,6 +33,57 @@ namespace GraphicalProgrammingLanguage
             //penAndPointer = new PenAndPointer(graphics, penSize, penColor);
         }
 
+        private bool CheckCondition(string condition)
+        {
+            // You can implement a more sophisticated condition checking logic here
+            // For simplicity, let's assume that any non-empty condition is considered true
+            return !string.IsNullOrWhiteSpace(condition);
+        }
+        private void ExecuteConditionalBlock(string block)
+        {
+            string[] commands = block.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            ExecuteCommands(commands);
+        }
+        private void ExecuteIfStatement(string condition, string block)
+        {
+            if (CheckCondition(condition))
+            {
+                ExecuteConditionalBlock(block);
+            }
+        }
+
+        private void ExecuteForLoop(string initialization, string condition, string iteration, string block)
+        {
+            // Execute initialization
+            ExecuteCommand(initialization);
+
+            // Continue loop while the condition is true
+            while (CheckCondition(condition))
+            {
+                // Execute the block of commands inside the loop
+                ExecuteConditionalBlock(block);
+
+                // Execute the iteration
+                ExecuteCommand(iteration);
+            }
+        }
+        private int EvaluateExpression(string expression)
+        {
+            try
+            {
+                // Use a basic approach for expression evaluation for demonstration purposes
+                
+                DataTable table = new DataTable();
+                table.Columns.Add("expression", typeof(string), expression);
+                DataRow row = table.NewRow();
+                table.Rows.Add(row);
+                return int.Parse((string)row["expression"]);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error evaluating expression '{expression}': {ex.Message}");
+            }
+        }
         public void ExecuteCommands(string[] commands)
         {
             foreach (string command in commands)
@@ -49,15 +106,113 @@ namespace GraphicalProgrammingLanguage
         }
         private void ExecuteCommand(string command)
         {
-            // Update the pen position at the start of each command
-            // penPosition = new Point(0, 0);
-            
-            if (command.StartsWith("drawto"))
-            {
-                // Example: drawTo(100,100)
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 2 && int.TryParse(parameters[0], out int x) && int.TryParse(parameters[1], out int y))
+                // Update the pen position at the start of each command
+                if (command.StartsWith("set"))
                 {
+                    // Example: set sizex = 10
+                    SetVariableFromCommand(command);
+                }
+                else if (command.StartsWith("cir"))
+                {
+                    // Example: circle(size)
+                    DrawCircle(command);
+                }
+                else if (command.StartsWith("rec"))
+                {
+                    // Example: rectangle(width, height)
+                    DrawRectangle(command);
+                }
+                else if (command.StartsWith("tri"))
+                {
+                    // Example: triangle(base, height)
+                    DrawTriangle(command);
+                }
+                else if (command.StartsWith("drawto"))
+                {
+                    // Example: drawto(x, y)
+                    DrawTo(command);
+                }
+                else if (command.StartsWith("moveto"))
+                {
+                    // Example: moveto(x, y)
+                    MoveTo(command);
+                }
+            else if (command.StartsWith("while"))
+            {
+                // Example: while(condition) { /* commands */ }
+                string condition = ExtractCondition(command);
+                string block = command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim();
+
+                // Execute the while loop
+                while (CheckCondition(condition))
+                {
+                    ExecuteConditionalBlock(block);
+                }
+            }
+            else if (command.StartsWith("do"))
+            {
+                // Example: do { /* commands */ } while(condition);
+                string block = command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim();
+                string condition = ExtractCondition(command);
+
+                // Execute the do-while loop at least once
+                do
+                {
+                    ExecuteConditionalBlock(block);
+                } while (CheckCondition(condition));
+            }
+            else if (command.StartsWith("if"))
+                {
+                    // Example: if(condition) { /* commands */ }
+                    string condition = ExtractCondition(command);
+                    ExecuteIfStatement(condition, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
+                }
+                else if (command.StartsWith("for"))
+                {
+                    // Example: for(initialization; condition; iteration) { /* commands */ }
+                    string initialization = ExtractForPart(command, "for", "(", ";");
+                    string condition = ExtractForPart(command, ";", ";", ")");
+                    string iteration = ExtractForPart(command, ";", "{", ")");
+
+                    ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
+                }
+            else if (command.StartsWith("rotate"))
+            {
+                Rotate(command);
+            }
+            else if (command.StartsWith("color"))
+            {
+                SetColor(command);
+            }
+            else if (command.StartsWith("randomshape"))
+            {
+                DrawRandomShape();
+            }
+            else if (command.StartsWith("animate"))
+            {
+                //Animate(command);
+            }
+            else if (command.StartsWith("function"))
+            {
+                DefineFunction(command);
+            }
+            else if (command.StartsWith("call"))
+                {
+                    CallFunction(command);
+                }
+            else
+                    {
+                    throw new ArgumentException($"Unknown command: {command}");
+                    }
+                }
+
+            private void DrawTo(string command)
+            {
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 2)
+                {
+                    int x = GetParameterValue(parameters[0]);
+                    int y = GetParameterValue(parameters[1]);
                     semaphore.Wait();
                     drawingGraphics.DrawLine(Pens.Black, penPosition, new Point(x, y));
                     penPosition = new Point(x, y);
@@ -68,12 +223,14 @@ namespace GraphicalProgrammingLanguage
                     throw new ArgumentException("Invalid parameters for drawto command.");
                 }
             }
-            else if (command.StartsWith("moveto"))
+
+            private void MoveTo(string command)
             {
-                // Example: moveTo(50,50)
                 string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 2 && int.TryParse(parameters[0], out int x) && int.TryParse(parameters[1], out int y))
+                if (parameters.Length == 2)
                 {
+                    int x = GetParameterValue(parameters[0]);
+                    int y = GetParameterValue(parameters[1]);
                     penPosition = new Point(x, y);
                 }
                 else
@@ -81,100 +238,6 @@ namespace GraphicalProgrammingLanguage
                     throw new ArgumentException("Invalid parameters for moveto command.");
                 }
             }
-            else if (command.StartsWith("tri"))
-            {
-                // Example: triangle(50,50)
-                string[] parameters = ExtractParameters(command);
-               // var brush = new SolidBrush(color: Color.Red);
-                if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
-                {
-                    semaphore.Wait();
-                    Point[] points =
-                    {
-                    penPosition,
-                    new Point(penPosition.X + width, penPosition.Y),
-                    new Point(penPosition.X + width / 2, penPosition.Y + height)
-                    };
-                    drawingGraphics.DrawPolygon(Pens.Black, points);
-                   // drawingGraphics.FillPolygon(brush, points);
-                    //SolidBrush b = new SolidBrush(Color.Red);
-                    penPosition = new Point(penPosition.X + width, penPosition.Y + width);
-                    semaphore.Release();
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for tri command.");
-                }
-            }
-            else if (command.StartsWith("rec"))
-            {
-                // Example: rectangle(50, 30)
-                string[] parameters = ExtractParameters(command);
-               // var brush = new SolidBrush(color: Color.Blue);
-                if (parameters.Length == 2 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height))
-                {
-                    semaphore.Wait();
-                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
-                   // drawingGraphics.FillRectangle(brush, penPosition.X, penPosition.Y, width, height);
-                    //SolidBrush b = new SolidBrush(Color.Blue);
-                    penPosition = new Point(width, height);
-                    semaphore.Release();
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for rec command.");
-                }
-            }
-            else if (command.StartsWith("cir"))
-            {
-                // Example: circle(30)
-                string[] parameters = ExtractParameters(command);
-                //var brush = new SolidBrush(color: Color.Green);
-                if (parameters.Length == 1 && int.TryParse(parameters[0], out int radius))
-                {
-                    semaphore.Wait();
-                    drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
-                    //drawingGraphics.FillEllipse(brush, penPosition.X, penPosition.Y, radius * 2, radius * 2);
-                    penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
-                    semaphore.Release();
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for cir command.");
-                }
-            }
-            else if (command.StartsWith("if"))
-            {
-                // Example: if(condition) { /* commands */ }
-                string condition = ExtractCondition(command);
-                if (CheckCondition(condition))
-                {
-                    // If the condition is true, execute the commands inside the block
-                    ExecuteConditionalBlock(command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
-                }
-            }
-            else if (command.StartsWith("for"))
-            {
-                // Example: for(initialization; condition; iteration) { /* commands */ }
-                string initialization = ExtractForPart(command, "for", "(", ";");
-                string condition = ExtractForPart(command, ";", ";", ")");
-                string iteration = ExtractForPart(command, ";", "{", ")");
-
-                // Parse and execute the for loop
-                ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
-            }
-            else if (command.StartsWith("endloop"))
-            {
-                // Do nothing for "endloop"; it's just a marker for the end of the loop block
-            }
-
-            else
-            {
-                throw new ArgumentException($"Unknown command: {command}");
-            }
-        }
-
-
 
 
         public void ClearPicBox()
@@ -203,17 +266,7 @@ namespace GraphicalProgrammingLanguage
             }
             throw new ArgumentException("Invalid if statement format");
         }
-        private bool CheckCondition(string condition)
-        {
-            // You can implement a more sophisticated condition checking logic here
-            // For simplicity, let's assume that any non-empty condition is considered true
-            return !string.IsNullOrWhiteSpace(condition);
-        }
-        private void ExecuteConditionalBlock(string block)
-        {
-            string[] commands = block.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            ExecuteCommands(commands);
-        }
+        
         private string ExtractForPart(string command, string startDelimiter, string endDelimiter, string stopDelimiter)
         {
             int startIndex = command.IndexOf(startDelimiter) + startDelimiter.Length;
@@ -226,21 +279,7 @@ namespace GraphicalProgrammingLanguage
             }
             throw new ArgumentException($"Invalid 'for' loop statement format: {command}");
         }
-        private void ExecuteForLoop(string initialization, string condition, string iteration, string block)
-        {
-            // Execute initialization
-            ExecuteCommand(initialization);
-
-            // Continue loop while the condition is true
-            while (CheckCondition(condition))
-            {
-                // Execute the block of commands inside the loop
-                ExecuteConditionalBlock(block);
-
-                // Execute the iteration
-                ExecuteCommand(iteration);
-            }
-        }
+       
         private void SetVariable(string variableName, int value)
         {
             if (variables.ContainsKey(variableName))
@@ -263,5 +302,275 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{variableName}' not found");
             }
         }
+        private int GetVariableValue(string variableName)
+        {
+            if (variables.ContainsKey(variableName))
+            {
+                return variables[variableName];
+            }
+            else
+            {
+                throw new ArgumentException($"Variable '{variableName}' not found");
+            }
+        }
+
+        private void SetVariableFromCommand(string command)
+        {
+            string[] parts = command.Split('=');
+            if (parts.Length == 2)
+            {
+                string variableName = parts[0].Substring(3).Trim(); // Remove "set" and trim
+                if (int.TryParse(parts[1], out int value))
+                {
+                    SetVariable(variableName, value);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid value for variable '{variableName}'");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid 'set' command format");
+            }
+        }
+
+        private void DrawTriangle(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 2)
+            {
+                int baseLength = GetParameterValue(parameters[0]);
+                int height = GetParameterValue(parameters[1]);
+                semaphore.Wait();
+                Point[] points =
+                {
+            penPosition,
+            new Point(penPosition.X + baseLength, penPosition.Y),
+            new Point(penPosition.X, penPosition.Y + height)
+        };
+                drawingGraphics.DrawPolygon(Pens.Black, points);
+                penPosition = new Point(penPosition.X + baseLength, penPosition.Y);
+                semaphore.Release();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for tri command.");
+            }
+        }
+        private void DrawCircle(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 1)
+            {
+                int radius = GetParameterValue(parameters[0]);
+                semaphore.Wait();
+                drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
+                penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
+                semaphore.Release();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for cir command.");
+            }
+        }
+
+        private void DrawRectangle(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 2)
+            {
+                int width = GetParameterValue(parameters[0]);
+                int height = GetParameterValue(parameters[1]);
+                semaphore.Wait();
+                drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
+                penPosition = new Point(penPosition.X + width, penPosition.Y);
+                semaphore.Release();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for rec command.");
+            }
+        }
+        private int GetParameterValue(string parameter)
+        {
+            if (int.TryParse(parameter, out int value))
+            {
+                return value;
+            }
+            else if (variables.ContainsKey(parameter))
+            {
+                return variables[parameter];
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid parameter: {parameter}");
+            }
+        }
+        private void Rotate(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 1 && double.TryParse(parameters[0], out double angleDegrees))
+            {
+                currentRotationAngle += angleDegrees;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for rotate command.");
+            }
+        }
+
+        private void SetColor(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 1)
+            {
+                string colorName = parameters[0].ToLower();
+                currentColor = Color.FromName(colorName);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for color command.");
+            }
+        }
+
+        private void DrawRandomShape()
+        {
+            int randomSize = random.Next(10, 50);
+            int randomX = random.Next(0, (int)(drawingGraphics.VisibleClipBounds.Width - randomSize));
+            int randomY = random.Next(0, (int)(drawingGraphics.VisibleClipBounds.Height - randomSize));
+            int randomRed = random.Next(0, 256);
+            int randomGreen = random.Next(0, 256);
+            int randomBlue = random.Next(0, 256);
+            Color randomColor = Color.FromArgb(randomRed, randomGreen, randomBlue);
+
+            string[] commands = { $"color({randomRed},{randomGreen},{randomBlue})", $"cir({randomSize})", $"drawto({randomX},{randomY})" };
+            ExecuteCommands(commands);
+        }
+
+        //private void Animate(string command)
+        //{
+        //    string[] parameters = ExtractParameters(command);
+        //    if (parameters.Length == 3 && parameters.All(int.TryParse))
+        //    {
+        //        int xStart = int.Parse(parameters[0]);
+        //        int xEnd = int.Parse(parameters[1]);
+        //        int durationInSeconds = int.Parse(parameters[2]);
+
+        //        int framesPerSecond = 30;
+        //        int totalFrames = durationInSeconds * framesPerSecond;
+
+        //        for (int frame = 0; frame < totalFrames; frame++)
+        //        {
+        //            int currentX = (int)Math.Round((double)frame / totalFrames * (xEnd - xStart) + xStart);
+        //            ExecuteCommand($"drawto({currentX},{penPosition.Y})");
+        //            System.Threading.Thread.Sleep(1000 / framesPerSecond);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException("Invalid parameters for animate command.");
+        //    }
+        //}
+        private void DrawRotatedCircle(int radius, double angleDegrees)
+        {
+            semaphore.Wait();
+            // Apply rotation to the drawing transformation
+            drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
+            drawingGraphics.RotateTransform((float)angleDegrees);
+            drawingGraphics.DrawEllipse(new Pen(currentColor), -radius, -radius, radius * 2, radius * 2);
+            // Reset the transformation matrix to prevent cumulative rotation
+            drawingGraphics.ResetTransform();
+            penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
+            semaphore.Release();
+        }
+
+        private void DrawRotatedRectangle(int width, int height, double angleDegrees)
+        {
+            semaphore.Wait();
+            // Apply rotation to the drawing transformation
+            drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
+            drawingGraphics.RotateTransform((float)angleDegrees);
+            drawingGraphics.DrawRectangle(new Pen(currentColor), -width / 2, -height / 2, width, height);
+            // Reset the transformation matrix to prevent cumulative rotation
+            drawingGraphics.ResetTransform();
+            penPosition = new Point(penPosition.X + width, penPosition.Y);
+            semaphore.Release();
+        }
+
+        private void DrawRotatedTriangle(int baseLength, int height, double angleDegrees)
+        {
+            semaphore.Wait();
+            Point[] points =
+            {
+                penPosition,
+                new Point(penPosition.X + baseLength, penPosition.Y),
+                new Point(penPosition.X + baseLength / 2, penPosition.Y + height)
+            };
+
+            // Apply rotation to the drawing transformation
+            drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
+            drawingGraphics.RotateTransform((float)angleDegrees);
+            drawingGraphics.DrawPolygon(new Pen(currentColor), points);
+            // Reset the transformation matrix to prevent cumulative rotation
+            drawingGraphics.ResetTransform();
+            penPosition = new Point(penPosition.X + baseLength, penPosition.Y);
+            semaphore.Release();
+        }
+        private void DefineFunction(string command)
+        {
+            string[] parts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 3 && parts[1] == "function")
+            {
+                string functionName = parts[2];
+
+                // Find the block of commands inside curly braces
+                int startIndex = command.IndexOf('{') + 1;
+                int endIndex = command.LastIndexOf('}');
+                if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
+                {
+                    string functionCommands = command.Substring(startIndex, endIndex - startIndex).Trim();
+                    functions[functionName] = functionCommands;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid function definition. Missing command block.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid function definition format.");
+            }
+        }
+
+        private void CallFunction(string command)
+        {
+            string[] parts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 2 && parts[1] == "call")
+            {
+                string functionName = parts[2];
+                if (functions.ContainsKey(functionName))
+                {
+                    // Get the commands associated with the function
+                    string functionCommands = functions[functionName];
+
+                    // Split the commands and execute them
+                    string[] commands = functionCommands.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    ExecuteCommands(commands);
+                }
+                else
+                {
+                    throw new ArgumentException($"Function '{functionName}' not defined.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid function call format.");
+            }
+        }
+
+        //
     }
 }

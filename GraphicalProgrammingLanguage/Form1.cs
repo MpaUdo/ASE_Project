@@ -41,7 +41,7 @@ namespace GraphicalProgrammingLanguage
             {
                 // Get the text from the TextBox
                 string textToDisplay = TextBoxCmdLine.Text.ToLower().Trim();
-                string[] commands = TextBoxCmdLine.Text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] commands = TextBoxCmdLine.Text.Split(new char[] { '\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
                 commandParser.ExecuteCommands(commands);
             }
             catch (ArgumentException ex)
