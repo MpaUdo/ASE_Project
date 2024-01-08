@@ -15,3 +15,21 @@ C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalPro
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.genruntimeconfig.cache
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\ref\GraphicalProgrammingLanguage.dll
 C:\Users\NWA_ERI EJIAMIKE\source\repos\GraphicalProgrammingLanguage\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.Properties.Resources.resources
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.exe
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.deps.json
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.runtimeconfig.json
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.dll
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.Form1.resources
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.Properties.Resources.resources
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.csproj.GenerateResource.cache
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.AssemblyInfoInputs.cache
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.AssemblyInfo.cs
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.csproj.CoreCompileInputs.cache
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.sourcelink.json
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.dll
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\refint\GraphicalProgrammingLanguage.dll
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.genruntimeconfig.cache
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\ref\GraphicalProgrammingLanguage.dll
