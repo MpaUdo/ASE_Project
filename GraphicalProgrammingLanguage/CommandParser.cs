@@ -14,19 +14,21 @@ namespace GraphicalProgrammingLanguage
         private Graphics drawingGraphics;
         private Point penPosition;
         private Dictionary<string, int> variables;
-        //private Dictionary<string, string> functions = new Dictionary<string, string>();
-        private Dictionary<string, List<string>> functions = new Dictionary<string, List<string>>();
+        private Dictionary<string, string> functions = new Dictionary<string, string>();
+        //private Dictionary<string, List<string>> functions = new Dictionary<string, List<string>>();
+        private Dictionary<string, Action<string[]>> userDefinedFunctions;
         private bool inFunctionBlock = false;
-        private Color currentColor = Color.Black;
+        //private Color currentColor = Color.Black;
         private Color currentDrawingColor = Color.Black;
         //private double currentRotationAngle;
-        private float currentRotationAngle = 0;
+        //private float currentRotationAngle = 0;
         private Random random = new Random();
         //private PenAndPointer penAndPointer;
         private SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public CommandParser(Graphics graphics, int penSize = 1, Color? penColor = null)
         {
+            userDefinedFunctions = new Dictionary<string, Action<string[]>>();
             if (graphics == null)
             {
                 throw new ArgumentNullException(nameof(graphics), "Graphics object cannot be null.");
@@ -55,7 +57,29 @@ namespace GraphicalProgrammingLanguage
                 ExecuteConditionalBlock(block);
             }
         }
+        public void DefineFunction(string functionName, Action<string[]> functionBody)
+        {
+            if (userDefinedFunctions.ContainsKey(functionName))
+            {
+                userDefinedFunctions[functionName] = functionBody;
+            }
+            else
+            {
+                userDefinedFunctions.Add(functionName, functionBody);
+            }
+        }
 
+        public void CallFunction(string functionName, string[] arguments)
+        {
+            if (userDefinedFunctions.ContainsKey(functionName))
+            {
+                userDefinedFunctions[functionName]?.Invoke(arguments);
+            }
+            else
+            {
+                throw new ArgumentException($"Function '{functionName}' not defined.");
+            }
+        }
         private void ExecuteForLoop(string initialization, string condition, string iteration, string block)
         {
             // Execute initialization
@@ -180,29 +204,56 @@ namespace GraphicalProgrammingLanguage
 
                     ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
                 }
-            else if (command.StartsWith("rot"))
+            else if (command.StartsWith("rotate"))
             {
+                // Example: rotate(90)
                 string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 1 && float.TryParse(parameters[0], out float angleDegrees))
+                if (parameters.Length == 1 && int.TryParse(parameters[0], out int degrees))
                 {
-                    Rotate(angleDegrees);
+                    RotateRectangle(degrees);
                 }
                 else
                 {
                     throw new ArgumentException("Invalid parameters for rotate command.");
                 }
             }
-            else if (command.StartsWith("col"))
+            else if (command.StartsWith("colrec"))
             {
-                // Example: color(255,0,0) for red
+                // Example: colrect(100, 50, Color.Red)
                 string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 3 && int.TryParse(parameters[0], out int red) && int.TryParse(parameters[1], out int green) && int.TryParse(parameters[2], out int blue))
+                if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
                 {
-                    SetDrawingColor(Color.FromArgb(red, green, blue));
+                    FillRectangle(width, height, Color.FromName(parameters[2]));
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for color command.");
+                    throw new ArgumentException("Invalid parameters for colrect command.");
+                }
+            }
+            else if (command.StartsWith("coltri"))
+            {
+                // Example: coltri(100, 50, Color.Blue)
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
+                {
+                    FillTriangle(width, height, Color.FromName(parameters[2]));
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for coltri command.");
+                }
+            }
+            else if (command.StartsWith("colcir"))
+            {
+                // Example: colcir(30, Color.Green)
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 2 && int.TryParse(parameters[0], out int radius) && Color.FromName(parameters[1]) != null)
+                {
+                    FillCircle(radius, Color.FromName(parameters[1]));
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for fillcir command.");
                 }
             }
             else if (command.StartsWith("rds"))
@@ -211,39 +262,29 @@ namespace GraphicalProgrammingLanguage
             }
             else if (command.StartsWith("ani"))
             {
-                Animate(command);
-            }
-            else if (command.StartsWith("function"))
-            {
-                inFunctionBlock = true;
-                string functionName = ExtractFunctionName(command);
-                string functionBody = ExtractFunctionBody(command);
-                functions[functionName] = new List<string>();
-            }
-            else if (inFunctionBlock)
-            {
-                if (command.StartsWith("endfunction"))
+                // Example: ani(5, 10) - animate for 5 seconds at 10 frames per second
+                string[] parameters = ExtractParameters(command);
+                if (parameters.Length == 2 && int.TryParse(parameters[0], out int duration) && int.TryParse(parameters[1], out int framesPerSecond))
                 {
-                    inFunctionBlock = false;
+                    AnimateShapes(duration, framesPerSecond);
                 }
                 else
                 {
-                    functions.Last().Value.Add(command);
+                    throw new ArgumentException("Invalid parameters for ani command.");
                 }
             }
-            else if (command.EndsWith("()"))
+            else if (command.StartsWith("def"))
             {
-                // Example: myFunction()
-                string functionName = command.Substring(0, command.Length - 2);
-                if (functions.ContainsKey(functionName))
-                {
-                    ExecuteCommands(functions[functionName].ToArray());
-                }
-                else
-                {
-                    throw new ArgumentException($"Undefined function: {functionName}");
-                }
+                // Example: def myFunction(arg1, arg2) { /* commands */ }
+                DefineFunction(command);
             }
+            else if (command.StartsWith("call"))
+            {
+                // Example: call myFunction(50, Color.Red)
+                CallFunction(command);
+            }
+
+
 
             else
                     {
@@ -455,150 +496,114 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Invalid parameter: {parameter}");
             }
         }
-        private void Rotate(float angleDegrees)
-        {
-            currentRotationAngle += angleDegrees;
-        }
-        private void DrawRotatedCircle(int radius)
+        public void FillRectangle(int width, int height, Color fillColor)
         {
             semaphore.Wait();
-            drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
-            drawingGraphics.RotateTransform(currentRotationAngle);
-            drawingGraphics.DrawEllipse(new Pen(currentDrawingColor), -radius, -radius, radius * 2, radius * 2);
-            drawingGraphics.ResetTransform();
+            var brush = new SolidBrush(fillColor);
+            drawingGraphics.FillRectangle(brush, penPosition.X, penPosition.Y, width, height);
+            penPosition = new Point(penPosition.X + width, penPosition.Y + height);
+            semaphore.Release();
+        }
+
+        public void FillTriangle(int width, int height, Color fillColor)
+        {
+            semaphore.Wait();
+            var brush = new SolidBrush(fillColor);
+            Point[] points =
+            {
+        penPosition,
+        new Point(penPosition.X + width, penPosition.Y),
+        new Point(penPosition.X + width / 2, penPosition.Y + height)
+    };
+            drawingGraphics.FillPolygon(brush, points);
+            penPosition = new Point(penPosition.X + width, penPosition.Y + width);
+            semaphore.Release();
+        }
+
+        public void FillCircle(int radius, Color fillColor)
+        {
+            semaphore.Wait();
+            var brush = new SolidBrush(fillColor);
+            drawingGraphics.FillEllipse(brush, penPosition.X, penPosition.Y, radius * 2, radius * 2);
             penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
             semaphore.Release();
         }
-
-        private void DrawRotatedRectangle(int width, int height)
+        public void RotateRectangle(int degrees)
         {
             semaphore.Wait();
             drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
-            drawingGraphics.RotateTransform(currentRotationAngle);
-            drawingGraphics.DrawRectangle(new Pen(currentDrawingColor), -width / 2, -height / 2, width, height);
-            drawingGraphics.ResetTransform();
-            penPosition = new Point(penPosition.X + width, penPosition.Y);
+            drawingGraphics.RotateTransform(degrees);
+            drawingGraphics.TranslateTransform(-penPosition.X, -penPosition.Y);
             semaphore.Release();
         }
-
-        private void DrawRotatedTriangle(int baseLength, int height)
+        public void DrawRandomShape()
         {
+            Random random = new Random();
+            int shapeType = random.Next(3); // 0: rectangle, 1: circle, 2: triangle
+
+            int size1 = random.Next(20, 100); // Random size for dimension 1
+            int size2 = random.Next(20, 100); // Random size for dimension 2
+
+            Color fillColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256)); // Random fill color
+
             semaphore.Wait();
-            Point[] points =
+            switch (shapeType)
             {
+                case 0:
+                    // Rectangle
+                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, size1, size2);
+                    break;
+                case 1:
+                    // Circle
+                    drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, size1, size1);
+                    break;
+                case 2:
+                    // Triangle
+                    Point[] points =
+                    {
                 penPosition,
-                new Point(penPosition.X + baseLength, penPosition.Y),
-                new Point(penPosition.X + baseLength / 2, penPosition.Y + height)
+                new Point(penPosition.X + size1, penPosition.Y),
+                new Point(penPosition.X + size1 / 2, penPosition.Y + size2)
             };
-            drawingGraphics.TranslateTransform(penPosition.X, penPosition.Y);
-            drawingGraphics.RotateTransform(currentRotationAngle);
-            drawingGraphics.DrawPolygon(new Pen(currentDrawingColor), points);
-            drawingGraphics.ResetTransform();
-            penPosition = new Point(penPosition.X + baseLength, penPosition.Y);
+                    drawingGraphics.DrawPolygon(Pens.Black, points);
+                    break;
+            }
             semaphore.Release();
         }
-
-        private void DrawRandomShape()
+        public void AnimateShapes(int duration, int fps)
         {
-            int randomSize = random.Next(10, 50);
-            int randomX = random.Next(0, (int)(drawingGraphics.VisibleClipBounds.Width - randomSize));
-            int randomY = random.Next(0, (int)(drawingGraphics.VisibleClipBounds.Height - randomSize));
-            int randomRed = random.Next(0, 256);
-            int randomGreen = random.Next(0, 256);
-            int randomBlue = random.Next(0, 256);
-            Color randomColor = Color.FromArgb(randomRed, randomGreen, randomBlue);
-
-            string[] commands = { $"color({randomRed},{randomGreen},{randomBlue})", $"cir({randomSize})", $"drawto({randomX},{randomY})" };
-            ExecuteCommands(commands);
-        }
-
-        //private void Animate(string command)
-        //{
-        //    string[] parameters = ExtractParameters(command);
-        //    if (parameters.Length == 3 && parameters.All(int.TryParse))
-        //    {
-        //        int xStart = int.Parse(parameters[0]);
-        //        int xEnd = int.Parse(parameters[1]);
-        //        int durationInSeconds = int.Parse(parameters[2]);
-
-        //        int framesPerSecond = 30;
-        //        int totalFrames = durationInSeconds * framesPerSecond;
-
-        //        for (int frame = 0; frame < totalFrames; frame++)
-        //        {
-        //            int currentX = (int)Math.Round((double)frame / totalFrames * (xEnd - xStart) + xStart);
-        //            ExecuteCommand($"drawto({currentX},{penPosition.Y})");
-        //            System.Threading.Thread.Sleep(1000 / framesPerSecond);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("Invalid parameters for animate command.");
-        //    }
-        //}
-        private void Animate(string command)
-        {
-            string[] parameters = ExtractParameters(command);
-            if (parameters.Length == 4 &&
-                int.TryParse(parameters[0], out int targetX) &&
-                int.TryParse(parameters[1], out int targetY) &&
-                int.TryParse(parameters[2], out int duration) &&
-                int.TryParse(parameters[3], out int steps))
+            int totalFrames = duration * fps;
+            for (int frame = 0; frame < totalFrames; frame++)
             {
-                int deltaX = (targetX - penPosition.X) / steps;
-                int deltaY = (targetY - penPosition.Y) / steps;
+                // Clear the drawing area in each frame
+                ClearPicBox();
 
-                for (int i = 0; i < steps; i++)
-                {
-                    MoveTo($"{penPosition.X + deltaX},{penPosition.Y + deltaY}");
-                    Thread.Sleep(duration / steps);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Invalid parameters for animate command.");
+                // Draw shapes at their animated positions
+                DrawAnimatedShapes(frame, totalFrames);
+
+                // Delay to control the animation speed
+                Thread.Sleep(1000 / fps);
             }
         }
-
-        private int EvaluateExpression(string expression)
+        private void DrawAnimatedShapes(int currentFrame, int totalFrames)
         {
-            // Basic arithmetic expression evaluation (for simplicity)
-            string[] tokens = expression.Split(' ');
-            int result = 0;
+            Random random = new Random();
 
-            if (tokens.Length == 3)
+            for (int i = 0; i < 5; i++) // Draw 5 random shapes in each frame for demonstration
             {
-                int operand1 = GetOperandValue(tokens[0]);
-                int operand2 = GetOperandValue(tokens[2]);
+                // Random position and size for each shape
+                int x = random.Next((int)(drawingGraphics.VisibleClipBounds.Width - 50));
+                int y = random.Next((int)(drawingGraphics.VisibleClipBounds.Height - 50));
+                int size1 = random.Next(20, 50);
+                int size2 = random.Next(20, 50);
 
-                switch (tokens[1])
-                {
-                    case "+":
-                        result = operand1 + operand2;
-                        break;
-                    case "-":
-                        result = operand1 - operand2;
-                        break;
-                    case "*":
-                        result = operand1 * operand2;
-                        break;
-                    case "/":
-                        if (operand2 != 0)
-                            result = operand1 / operand2;
-                        else
-                            throw new ArgumentException("Division by zero.");
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid operator in expression.");
-                }
-            }
-            else
-            {
-                // Single operand case
-                result = GetOperandValue(expression);
-            }
+                // Random fill color for each shape
+                Color fillColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
 
-            return result;
+                // Draw the shapes at animated positions
+                penPosition = new Point(x, y);
+                DrawRandomShape(); // You can modify this to use specific shapes based on your needs
+            }
         }
 
         private int GetOperandValue(string operand)
@@ -616,32 +621,88 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{operand}' not found");
             }
         }
-        private string ExtractFunctionName(string command)
+        //private string ExtractFunctionName(string command)
+        //{
+        //    int startIndex = command.IndexOf("function") + "function".Length;
+        //    int endIndex = command.IndexOf("(");
+        //    if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
+        //    {
+        //        return command.Substring(startIndex, endIndex - startIndex).Trim();
+        //    }
+        //    throw new ArgumentException("Invalid function definition format");
+        //}
+
+        //private string ExtractFunctionBody(string command)
+        //{
+        //    int startIndex = command.IndexOf("{") + 1;
+        //    int endIndex = command.LastIndexOf("}");
+        //    if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
+        //    {
+        //        return command.Substring(startIndex, endIndex - startIndex).Trim();
+        //    }
+        //    throw new ArgumentException("Invalid function definition format");
+        //}
+
+        //private List<string> ParseFunctionBody(string functionBody)
+        //{
+        //    // Split the function body into individual commands
+        //    return functionBody.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        //}
+        private void DefineFunction(string command)
         {
-            int startIndex = command.IndexOf("function") + "function".Length;
+            int startIndex = command.IndexOf("def") + "def".Length;
             int endIndex = command.IndexOf("(");
-            if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
+
+            if (startIndex >= 0 && endIndex >= 0)
             {
-                return command.Substring(startIndex, endIndex - startIndex).Trim();
+                string functionName = command.Substring(startIndex, endIndex - startIndex).Trim();
+                int bodyStartIndex = command.IndexOf("{");
+                int bodyEndIndex = command.LastIndexOf("}");
+
+                if (bodyStartIndex >= 0 && bodyEndIndex >= 0)
+                {
+                    string body = command.Substring(bodyStartIndex + 1, bodyEndIndex - bodyStartIndex - 1).Trim();
+                    Action<string[]> functionBody = (args) => ExecuteCommands(body.Split(';'));
+                    DefineFunction(functionName, functionBody);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid function definition syntax: {command}");
+                }
             }
-            throw new ArgumentException("Invalid function definition format");
+            else
+            {
+                throw new ArgumentException($"Invalid function definition syntax: {command}");
+            }
         }
 
-        private string ExtractFunctionBody(string command)
+        private void CallFunction(string command)
         {
-            int startIndex = command.IndexOf("{") + 1;
-            int endIndex = command.LastIndexOf("}");
-            if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
-            {
-                return command.Substring(startIndex, endIndex - startIndex).Trim();
-            }
-            throw new ArgumentException("Invalid function definition format");
-        }
+            int startIndex = command.IndexOf("call") + "call".Length;
+            int endIndex = command.IndexOf("(");
 
-        private List<string> ParseFunctionBody(string functionBody)
-        {
-            // Split the function body into individual commands
-            return functionBody.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (startIndex >= 0 && endIndex >= 0)
+            {
+                string functionName = command.Substring(startIndex, endIndex - startIndex).Trim();
+                int argumentsStartIndex = command.IndexOf("(") + 1;
+                int argumentsEndIndex = command.IndexOf(")");
+
+                if (argumentsStartIndex >= 0 && argumentsEndIndex >= 0)
+                {
+                    string argumentsString = command.Substring(argumentsStartIndex, argumentsEndIndex - argumentsStartIndex).Trim();
+                    string[] arguments = argumentsString.Split(',');
+
+                    CallFunction(functionName, arguments);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid function call syntax: {command}");
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid function call syntax: {command}");
+            }
         }
     }
 }
