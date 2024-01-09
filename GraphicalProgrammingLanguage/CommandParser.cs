@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace GraphicalProgrammingLanguage
 {
+    /// <summary>
+    /// Represents a command parser for a graphical programming language.
+    /// </summary>
     internal class CommandParser
     {
         private Graphics drawingGraphics;
@@ -26,6 +29,12 @@ namespace GraphicalProgrammingLanguage
         //private PenAndPointer penAndPointer;
         private SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandParser"/> class.
+        /// </summary>
+        /// <param name="graphics">The graphics object to draw on.</param>
+        /// <param name="penSize">The size of the pen.</param>
+        /// <param name="penColor">The color of the pen.</param>
         public CommandParser(Graphics graphics, int penSize = 1, Color? penColor = null)
         {
             userDefinedFunctions = new Dictionary<string, Action<string[]>>();
@@ -38,18 +47,31 @@ namespace GraphicalProgrammingLanguage
             variables = new Dictionary<string, int>();
             //penAndPointer = new PenAndPointer(graphics, penSize, penColor);
         }
-
+        /// <summary>
+        /// Checks if a given condition is true.
+        /// </summary>
+        /// <param name="condition">The condition to check.</param>
+        /// <returns><c>true</c> if the condition is true; otherwise, <c>false</c>.</returns>
         private bool CheckCondition(string condition)
         {
             // You can implement a more sophisticated condition checking logic here
             // For simplicity, let's assume that any non-empty condition is considered true
             return !string.IsNullOrWhiteSpace(condition);
         }
+        /// <summary>
+        /// Executes a block of commands if the specified condition is true.
+        /// </summary>
+        /// <param name="block">The block of commands to execute.</param>
         private void ExecuteConditionalBlock(string block)
         {
             string[] commands = block.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             ExecuteCommands(commands);
         }
+        /// <summary>
+        /// Executes an if statement with the provided condition and block.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="block">The block of commands to execute if the condition is true.</param>
         private void ExecuteIfStatement(string condition, string block)
         {
             if (CheckCondition(condition))
@@ -57,6 +79,11 @@ namespace GraphicalProgrammingLanguage
                 ExecuteConditionalBlock(block);
             }
         }
+        /// <summary>
+        /// Defines a user-defined function.
+        /// </summary>
+        /// <param name="functionName">The name of the function.</param>
+        /// <param name="functionBody">The body of the function.</param>
         public void DefineFunction(string functionName, Action<string[]> functionBody)
         {
             if (userDefinedFunctions.ContainsKey(functionName))
@@ -68,7 +95,11 @@ namespace GraphicalProgrammingLanguage
                 userDefinedFunctions.Add(functionName, functionBody);
             }
         }
-
+        /// <summary>
+        /// Calls a user-defined function with the specified arguments.
+        /// </summary>
+        /// <param name="functionName">The name of the function to call.</param>
+        /// <param name="arguments">The arguments to pass to the function.</param>
         public void CallFunction(string functionName, string[] arguments)
         {
             if (userDefinedFunctions.ContainsKey(functionName))
@@ -80,6 +111,13 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Function '{functionName}' not defined.");
             }
         }
+        /// <summary>
+        /// Executes a for loop with the specified initialization, condition, iteration, and block of commands.
+        /// </summary>
+        /// <param name="initialization">The initialization part of the for loop.</param>
+        /// <param name="condition">The condition to check in each iteration.</param>
+        /// <param name="iteration">The iteration part of the for loop.</param>
+        /// <param name="block">The block of commands inside the for loop.</param>
         private void ExecuteForLoop(string initialization, string condition, string iteration, string block)
         {
             // Execute initialization
@@ -95,6 +133,11 @@ namespace GraphicalProgrammingLanguage
                 ExecuteCommand(iteration);
             }
         }
+
+        /// <summary>
+        /// Executes a series of commands.
+        /// </summary>
+        /// <param name="commands">The array of commands to execute.</param>
         public void ExecuteCommands(string[] commands)
         {
             foreach (string command in commands)
@@ -115,39 +158,43 @@ namespace GraphicalProgrammingLanguage
                 }
             }
         }
+        /// <summary>
+        /// Executes an individual command.
+        /// </summary>
+        /// <param name="command">The command to execute.</param>
         private void ExecuteCommand(string command)
         {
-                // Update the pen position at the start of each command
-                if (command.StartsWith("set"))
-                {
-                    // Example: set sizex = 10
-                    SetVariableFromCommand(command);
-                }
-                else if (command.StartsWith("cir"))
-                {
-                    // Example: circle(size)
-                    DrawCircle(command);
-                }
-                else if (command.StartsWith("rec"))
-                {
-                    // Example: rectangle(width, height)
-                    DrawRectangle(command);
-                }
-                else if (command.StartsWith("tri"))
-                {
-                    // Example: triangle(base, height)
-                    DrawTriangle(command);
-                }
-                else if (command.StartsWith("drawto"))
-                {
-                    // Example: drawto(x, y)
-                    DrawTo(command);
-                }
-                else if (command.StartsWith("moveto"))
-                {
-                    // Example: moveto(x, y)
-                    MoveTo(command);
-                }
+            // Update the pen position at the start of each command
+            if (command.StartsWith("set"))
+            {
+                // Example: set sizex = 10
+                SetVariableFromCommand(command);
+            }
+            else if (command.StartsWith("cir"))
+            {
+                // Example: circle(size)
+                DrawCircle(command);
+            }
+            else if (command.StartsWith("rec"))
+            {
+                // Example: rectangle(width, height)
+                DrawRectangle(command);
+            }
+            else if (command.StartsWith("tri"))
+            {
+                // Example: triangle(base, height)
+                DrawTriangle(command);
+            }
+            else if (command.StartsWith("drawto"))
+            {
+                // Example: drawto(x, y)
+                DrawTo(command);
+            }
+            else if (command.StartsWith("moveto"))
+            {
+                // Example: moveto(x, y)
+                MoveTo(command);
+            }
             else if (command.StartsWith("draw"))
             {
                 // Example: draw circle
@@ -186,20 +233,20 @@ namespace GraphicalProgrammingLanguage
                 } while (CheckCondition(condition));
             }
             else if (command.StartsWith("if"))
-                {
-                    // Example: if(condition) { /* commands */ }
-                    string condition = ExtractCondition(command);
-                    ExecuteIfStatement(condition, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
-                }
-                else if (command.StartsWith("for"))
-                {
-                    // Example: for(initialization; condition; iteration) { /* commands */ }
-                    string initialization = ExtractForPart(command, "for", "(", ";");
-                    string condition = ExtractForPart(command, ";", ";", ")");
-                    string iteration = ExtractForPart(command, ";", "{", ")");
+            {
+                // Example: if(condition) { /* commands */ }
+                string condition = ExtractCondition(command);
+                ExecuteIfStatement(condition, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
+            }
+            else if (command.StartsWith("for"))
+            {
+                // Example: for(initialization; condition; iteration) { /* commands */ }
+                string initialization = ExtractForPart(command, "for", "(", ";");
+                string condition = ExtractForPart(command, ";", ";", ")");
+                string iteration = ExtractForPart(command, ";", "{", ")");
 
-                    ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
-                }
+                ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
+            }
             else if (command.StartsWith("rot"))
             {
                 // Example: rotate(90)
@@ -280,11 +327,14 @@ namespace GraphicalProgrammingLanguage
                 CallFunction(command);
             }
             else
-                    {
-                    throw new ArgumentException($"Unknown command: {command}");
-                    }
-                }
-
+            {
+                throw new ArgumentException($"Unknown command: {command}");
+            }
+        }
+        /// <summary>
+        /// Draws a line to the specified position.
+        /// </summary>
+        /// <param name="command">The drawto command.</param>
         private void DrawTo(string command)
         {
             string[] parameters = ExtractParameters(command);
@@ -304,28 +354,37 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException("Invalid parameters for drawto command.");
             }
         }
-
+        /// <summary>
+        /// Moves the pen to the specified position.
+        /// </summary>
+        /// <param name="command">The moveto command.</param>
         private void MoveTo(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length == 2)
             {
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 2)
-                {
-                    int x = GetParameterValue(parameters[0]);
-                    int y = GetParameterValue(parameters[1]);
-                    penPosition = new Point(x, y);
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for moveto command.");
-                }
+                int x = GetParameterValue(parameters[0]);
+                int y = GetParameterValue(parameters[1]);
+                penPosition = new Point(x, y);
             }
-
-
+            else
+            {
+                throw new ArgumentException("Invalid parameters for moveto command.");
+            }
+        }
+        /// <summary>
+        /// Clears the drawing area.
+        /// </summary>
         public void ClearPicBox()
         {
             drawingGraphics.Clear(Color.Gray);
             penPosition = new Point(0, 0);
         }
+        /// <summary>
+        /// Extracts parameters from a command string.
+        /// </summary>
+        /// <param name="command">The command string.</param>
+        /// <returns>An array of parameters.</returns>
         private string[] ExtractParameters(string command)
         {
             int startIndex = command.IndexOf('(') + 1;
@@ -337,6 +396,11 @@ namespace GraphicalProgrammingLanguage
             }
             return new string[0];
         }
+        /// <summary>
+        /// Extracts parameters from a condition command string.
+        /// </summary>
+        /// <param name="command">The condition command string.</param>
+        /// <returns>An array of parameters representing the condition.</returns>
         private string ExtractCondition(string command)
         {
             int startIndex = command.IndexOf('(') + 1;
@@ -347,7 +411,7 @@ namespace GraphicalProgrammingLanguage
             }
             throw new ArgumentException("Invalid if statement format");
         }
-        
+
         private string ExtractForPart(string command, string startDelimiter, string endDelimiter, string stopDelimiter)
         {
             int startIndex = command.IndexOf(startDelimiter) + startDelimiter.Length;
@@ -360,7 +424,10 @@ namespace GraphicalProgrammingLanguage
             }
             throw new ArgumentException($"Invalid 'for' loop statement format: {command}");
         }
-       
+        /// <summary>
+        /// Sets variables based on a command that assigns values to them.
+        /// </summary>
+        /// <param name="command">The command to set variables from.</param>
         private void SetVariable(string variableName, int value)
         {
             if (variables.ContainsKey(variableName))
@@ -372,6 +439,10 @@ namespace GraphicalProgrammingLanguage
                 variables.Add(variableName, value);
             }
         }
+        /// <summary>
+        /// Gets the list of variable names defined in the program.
+        /// </summary>
+        /// <returns>A list of variable names.</returns>
         private int GetVariable(string variableName)
         {
             if (variables.ContainsKey(variableName))
@@ -383,6 +454,10 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{variableName}' not found");
             }
         }
+        /// <summary>
+        /// Gets the values of all variables defined in the program.
+        /// </summary>
+        /// <returns>A dictionary containing variable names and their corresponding values.</returns>
         private int GetVariableValue(string variableName)
         {
             if (variables.ContainsKey(variableName))
@@ -394,7 +469,10 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{variableName}' not found");
             }
         }
-
+        /// <summary>
+        /// Sets a variable value based on the provided command.
+        /// </summary>
+        /// <param name="command">The command to set the variable value.</param>
         private void SetVariableFromCommand(string command)
         {
             string[] parts = command.Split('=');
@@ -419,6 +497,10 @@ namespace GraphicalProgrammingLanguage
         //{
         //    currentDrawingColor = color;
         //}
+        /// <summary>
+        /// Draws a triangle based on the provided command.
+        /// </summary>
+        /// <param name="command">The command containing triangle parameters.</param>
         private void DrawTriangle(string command)
         {
             string[] parameters = ExtractParameters(command);
@@ -446,6 +528,10 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException("Invalid parameters for tri command.");
             }
         }
+        /// <summary>
+        /// Draws a circle based on the provided command.
+        /// </summary>
+        /// <param name="command">The command containing circle parameters.</param>
         private void DrawCircle(string command)
         {
             string[] parameters = ExtractParameters(command);
@@ -466,7 +552,10 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException("Invalid parameters for cir command.");
             }
         }
-
+        /// <summary>
+        /// Draws a rectangle based on the provided command.
+        /// </summary>
+        /// <param name="command">The command containing rectangle parameters.</param>
         private void DrawRectangle(string command)
         {
             string[] parameters = ExtractParameters(command);
@@ -488,6 +577,11 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException("Invalid parameters for rec command.");
             }
         }
+        /// <summary>
+        /// Gets the numerical value of a parameter, either a variable or a literal value.
+        /// </summary>
+        /// <param name="parameter">The parameter to evaluate.</param>
+        /// <returns>The numerical value of the parameter.</returns>
         private int GetParameterValue(string parameter)
         {
             if (int.TryParse(parameter, out int value))
@@ -535,6 +629,10 @@ namespace GraphicalProgrammingLanguage
             penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
             semaphore.Release();
         }
+        /// <summary>
+        /// Rotates a rectangle drawn on the graphics object.
+        /// </summary>
+        /// <param name="angle">The rotation angle in degrees.</param>
         public void RotateRectangle(int degrees)
         {
             semaphore.Wait();
@@ -543,6 +641,9 @@ namespace GraphicalProgrammingLanguage
             drawingGraphics.TranslateTransform(-penPosition.X, -penPosition.Y);
             semaphore.Release();
         }
+        /// <summary>
+        /// Draws a randomly selected shape on the graphics object.
+        /// </summary>
         public void DrawRandomShape()
         {
             Random random = new Random();
@@ -577,6 +678,11 @@ namespace GraphicalProgrammingLanguage
             }
             semaphore.Release();
         }
+        /// <summary>
+        /// Animates shapes for a specified duration and frames per second.
+        /// </summary>
+        /// <param name="duration">The duration of the animation in seconds.</param>
+        /// <param name="fps">The frames per second for the animation.</param>
         public void AnimateShapes(int duration, int fps)
         {
             int totalFrames = duration * fps;
@@ -592,6 +698,11 @@ namespace GraphicalProgrammingLanguage
                 Thread.Sleep(1000 / fps);
             }
         }
+        /// <summary>
+        /// Draws animated shapes on the graphics object for a specified duration and frames per second.
+        /// </summary>
+        /// <param name="duration">The duration of the animation in seconds.</param>
+        /// <param name="fps">The frames per second for the animation.</param>
         private void DrawAnimatedShapes(int currentFrame, int totalFrames)
         {
             Random random = new Random();
@@ -612,7 +723,11 @@ namespace GraphicalProgrammingLanguage
                 DrawRandomShape(); // You can modify this to use specific shapes based on your needs
             }
         }
-
+        /// <summary>
+        /// Gets the numerical value of an operand, either a variable or a literal value.
+        /// </summary>
+        /// <param name="operand">The operand to evaluate.</param>
+        /// <returns>The numerical value of the operand.</returns>
         private int GetOperandValue(string operand)
         {
             if (int.TryParse(operand, out int value))
@@ -628,34 +743,11 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{operand}' not found");
             }
         }
-       
-        //private string ExtractFunctionName(string command)
-        //{
-        //    int startIndex = command.IndexOf("function") + "function".Length;
-        //    int endIndex = command.IndexOf("(");
-        //    if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
-        //    {
-        //        return command.Substring(startIndex, endIndex - startIndex).Trim();
-        //    }
-        //    throw new ArgumentException("Invalid function definition format");
-        //}
-
-        //private string ExtractFunctionBody(string command)
-        //{
-        //    int startIndex = command.IndexOf("{") + 1;
-        //    int endIndex = command.LastIndexOf("}");
-        //    if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
-        //    {
-        //        return command.Substring(startIndex, endIndex - startIndex).Trim();
-        //    }
-        //    throw new ArgumentException("Invalid function definition format");
-        //}
-
-        //private List<string> ParseFunctionBody(string functionBody)
-        //{
-        //    // Split the function body into individual commands
-        //    return functionBody.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        //}
+        /// <summary>
+        /// Defines a user-defined function with the specified name and body.
+        /// </summary>
+        /// <param name="functionName">The name of the function.</param>
+        /// <param name="functionBody">The body of the function.</param>
         private void DefineFunction(string command)
         {
             int startIndex = command.IndexOf("def") + "def".Length;
@@ -683,7 +775,11 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Invalid function definition syntax: {command}");
             }
         }
-
+        /// <summary>
+        /// Calls a user-defined function with the specified name and arguments.
+        /// </summary>
+        /// <param name="functionName">The name of the function to call.</param>
+        /// <param name="arguments">The arguments to pass to the function.</param>
         private void CallFunction(string command)
         {
             int startIndex = command.IndexOf("call") + "call".Length;
@@ -712,6 +808,11 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Invalid function call syntax: {command}");
             }
         }
+        /// <summary>
+        /// Gets the color value from a parameter, either a predefined color or a variable.
+        /// </summary>
+        /// <param name="parameter">The parameter to evaluate.</param>
+        /// <returns>The color value.</returns>
         private Color GetColorParameter(string colorParameter)
         {
             if (colorParameter != null)
@@ -727,6 +828,10 @@ namespace GraphicalProgrammingLanguage
             }
             return Color.Black; // Default color if not specified
         }
+        /// <summary>
+        /// Draws a predefined shape based on the specified shape name.
+        /// </summary>
+        /// <param name="shapeName">The name of the predefined shape.</param>
         public void DrawPredefinedShape(string shapeName)
         {
             Random random = new Random();
@@ -754,11 +859,12 @@ namespace GraphicalProgrammingLanguage
                     semaphore.Release();
                     break;
 
-                // Add more predefined shapes as needed
-
                 default:
                     throw new ArgumentException($"Unknown shape: {shapeName}");
             }
         }
+        /// <summary>
+        /// END.
+        /// </summary>
     }
 }

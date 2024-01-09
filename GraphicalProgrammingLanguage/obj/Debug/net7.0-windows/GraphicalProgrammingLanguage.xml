@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphicalProgrammingLanguage</name>
+    </assembly>
+    <members>
+        <member name="T:GraphicalProgrammingLanguage.CommandParser">
+            <summary>
+            Represents a command parser for a graphical programming language.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.#ctor(System.Drawing.Graphics,System.Int32,System.Nullable{System.Drawing.Color})">
+            <summary>
+            Initializes a new instance of the <see cref="T:GraphicalProgrammingLanguage.CommandParser"/> class.
+            </summary>
+            <param name="graphics">The graphics object to draw on.</param>
+            <param name="penSize">The size of the pen.</param>
+            <param name="penColor">The color of the pen.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.CheckCondition(System.String)">
+            <summary>
+            Checks if a given condition is true.
+            </summary>
+            <param name="condition">The condition to check.</param>
+            <returns><c>true</c> if the condition is true; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteConditionalBlock(System.String)">
+            <summary>
+            Executes a block of commands if the specified condition is true.
+            </summary>
+            <param name="block">The block of commands to execute.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteIfStatement(System.String,System.String)">
+            <summary>
+            Executes an if statement with the provided condition and block.
+            </summary>
+            <param name="condition">The condition to evaluate.</param>
+            <param name="block">The block of commands to execute if the condition is true.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DefineFunction(System.String,System.Action{System.String[]})">
+            <summary>
+            Defines a user-defined function.
+            </summary>
+            <param name="functionName">The name of the function.</param>
+            <param name="functionBody">The body of the function.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.CallFunction(System.String,System.String[])">
+            <summary>
+            Calls a user-defined function with the specified arguments.
+            </summary>
+            <param name="functionName">The name of the function to call.</param>
+            <param name="arguments">The arguments to pass to the function.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteForLoop(System.String,System.String,System.String,System.String)">
+            <summary>
+            Executes a for loop with the specified initialization, condition, iteration, and block of commands.
+            </summary>
+            <param name="initialization">The initialization part of the for loop.</param>
+            <param name="condition">The condition to check in each iteration.</param>
+            <param name="iteration">The iteration part of the for loop.</param>
+            <param name="block">The block of commands inside the for loop.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteCommands(System.String[])">
+            <summary>
+            Executes a series of commands.
+            </summary>
+            <param name="commands">The array of commands to execute.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExecuteCommand(System.String)">
+            <summary>
+            Executes an individual command.
+            </summary>
+            <param name="command">The command to execute.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawTo(System.String)">
+            <summary>
+            Draws a line to the specified position.
+            </summary>
+            <param name="command">The drawto command.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.MoveTo(System.String)">
+            <summary>
+            Moves the pen to the specified position.
+            </summary>
+            <param name="command">The moveto command.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ClearPicBox">
+            <summary>
+            Clears the drawing area.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExtractParameters(System.String)">
+            <summary>
+            Extracts parameters from a command string.
+            </summary>
+            <param name="command">The command string.</param>
+            <returns>An array of parameters.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.ExtractCondition(System.String)">
+            <summary>
+            Extracts parameters from a condition command string.
+            </summary>
+            <param name="command">The condition command string.</param>
+            <returns>An array of parameters representing the condition.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.SetVariable(System.String,System.Int32)">
+            <summary>
+            Sets variables based on a command that assigns values to them.
+            </summary>
+            <param name="command">The command to set variables from.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.GetVariable(System.String)">
+            <summary>
+            Gets the list of variable names defined in the program.
+            </summary>
+            <returns>A list of variable names.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.GetVariableValue(System.String)">
+            <summary>
+            Gets the values of all variables defined in the program.
+            </summary>
+            <returns>A dictionary containing variable names and their corresponding values.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.SetVariableFromCommand(System.String)">
+            <summary>
+            Sets a variable value based on the provided command.
+            </summary>
+            <param name="command">The command to set the variable value.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawTriangle(System.String)">
+            <summary>
+            Draws a triangle based on the provided command.
+            </summary>
+            <param name="command">The command containing triangle parameters.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawCircle(System.String)">
+            <summary>
+            Draws a circle based on the provided command.
+            </summary>
+            <param name="command">The command containing circle parameters.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawRectangle(System.String)">
+            <summary>
+            Draws a rectangle based on the provided command.
+            </summary>
+            <param name="command">The command containing rectangle parameters.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.GetParameterValue(System.String)">
+            <summary>
+            Gets the numerical value of a parameter, either a variable or a literal value.
+            </summary>
+            <param name="parameter">The parameter to evaluate.</param>
+            <returns>The numerical value of the parameter.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.RotateRectangle(System.Int32)">
+            <summary>
+            Rotates a rectangle drawn on the graphics object.
+            </summary>
+            <param name="angle">The rotation angle in degrees.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawRandomShape">
+            <summary>
+            Draws a randomly selected shape on the graphics object.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.AnimateShapes(System.Int32,System.Int32)">
+            <summary>
+            Animates shapes for a specified duration and frames per second.
+            </summary>
+            <param name="duration">The duration of the animation in seconds.</param>
+            <param name="fps">The frames per second for the animation.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawAnimatedShapes(System.Int32,System.Int32)">
+            <summary>
+            Draws animated shapes on the graphics object for a specified duration and frames per second.
+            </summary>
+            <param name="duration">The duration of the animation in seconds.</param>
+            <param name="fps">The frames per second for the animation.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.GetOperandValue(System.String)">
+            <summary>
+            Gets the numerical value of an operand, either a variable or a literal value.
+            </summary>
+            <param name="operand">The operand to evaluate.</param>
+            <returns>The numerical value of the operand.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DefineFunction(System.String)">
+            <summary>
+            Defines a user-defined function with the specified name and body.
+            </summary>
+            <param name="functionName">The name of the function.</param>
+            <param name="functionBody">The body of the function.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.CallFunction(System.String)">
+            <summary>
+            Calls a user-defined function with the specified name and arguments.
+            </summary>
+            <param name="functionName">The name of the function to call.</param>
+            <param name="arguments">The arguments to pass to the function.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.GetColorParameter(System.String)">
+            <summary>
+            Gets the color value from a parameter, either a predefined color or a variable.
+            </summary>
+            <param name="parameter">The parameter to evaluate.</param>
+            <returns>The color value.</returns>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.CommandParser.DrawPredefinedShape(System.String)">
+            <summary>
+            Draws a predefined shape based on the specified shape name.
+            </summary>
+            <param name="shapeName">The name of the predefined shape.</param>
+        </member>
+        <member name="F:GraphicalProgrammingLanguage.Form1.components">
+            <summary>
+             Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Form1.Dispose(System.Boolean)">
+            <summary>
+             Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Form1.InitializeComponent">
+            <summary>
+             Required method for Designer support - do not modify
+             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.Program.Main">
+            <summary>
+             The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgrammingLanguage.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.adminlogo__10_">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.C_Typewriter">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgrammingLanguage.Properties.Resources.C_Typewriter2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgrammingLanguage.ApplicationConfiguration">
+            <summary>
+             Bootstrap the application configuration.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgrammingLanguage.ApplicationConfiguration.Initialize">
+            <summary>
+             Bootstrap the application as follows:
+             <code>
+             global::System.Windows.Forms.Application.EnableVisualStyles();
+             global::System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+             global::System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            </code>
+            </summary>
+        </member>
+    </members>
+</doc>

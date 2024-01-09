@@ -33,3 +33,5 @@ C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\
 C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.pdb
 C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.genruntimeconfig.cache
 C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\ref\GraphicalProgrammingLanguage.dll
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\bin\Debug\net7.0-windows\GraphicalProgrammingLanguage.xml
+C:\Users\NwaEri\source\repos\ASE_Project\GraphicalProgrammingLanguage\obj\Debug\net7.0-windows\GraphicalProgrammingLanguage.xml
