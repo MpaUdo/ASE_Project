@@ -95,23 +95,6 @@ namespace GraphicalProgrammingLanguage
                 ExecuteCommand(iteration);
             }
         }
-        //private int EvaluateExpression(string expression)
-        //{
-        //    try
-        //    {
-        //        // Use a basic approach for expression evaluation for demonstration purposes
-                
-        //        DataTable table = new DataTable();
-        //        table.Columns.Add("expression", typeof(string), expression);
-        //        DataRow row = table.NewRow();
-        //        table.Rows.Add(row);
-        //        return int.Parse((string)row["expression"]);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new ArgumentException($"Error evaluating expression '{expression}': {ex.Message}");
-        //    }
-        //}
         public void ExecuteCommands(string[] commands)
         {
             foreach (string command in commands)
@@ -165,6 +148,19 @@ namespace GraphicalProgrammingLanguage
                     // Example: moveto(x, y)
                     MoveTo(command);
                 }
+            else if (command.StartsWith("draw"))
+            {
+                // Example: draw circle
+                string shapeName = ExtractParameters(command).FirstOrDefault()?.ToLower();
+                if (!string.IsNullOrWhiteSpace(shapeName))
+                {
+                    DrawPredefinedShape(shapeName);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for draw command.");
+                }
+            }
             else if (command.StartsWith("while"))
             {
                 // Example: while(condition) { /* commands */ }
@@ -204,7 +200,7 @@ namespace GraphicalProgrammingLanguage
 
                     ExecuteForLoop(initialization, condition, iteration, command.Substring(command.IndexOf('{') + 1, command.LastIndexOf('}') - command.IndexOf('{') - 1).Trim());
                 }
-            else if (command.StartsWith("rotate"))
+            else if (command.StartsWith("rot"))
             {
                 // Example: rotate(90)
                 string[] parameters = ExtractParameters(command);
@@ -217,45 +213,45 @@ namespace GraphicalProgrammingLanguage
                     throw new ArgumentException("Invalid parameters for rotate command.");
                 }
             }
-            else if (command.StartsWith("colrec"))
-            {
-                // Example: colrect(100, 50, Color.Red)
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
-                {
-                    FillRectangle(width, height, Color.FromName(parameters[2]));
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for colrect command.");
-                }
-            }
-            else if (command.StartsWith("coltri"))
-            {
-                // Example: coltri(100, 50, Color.Blue)
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
-                {
-                    FillTriangle(width, height, Color.FromName(parameters[2]));
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for coltri command.");
-                }
-            }
-            else if (command.StartsWith("colcir"))
-            {
-                // Example: colcir(30, Color.Green)
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 2 && int.TryParse(parameters[0], out int radius) && Color.FromName(parameters[1]) != null)
-                {
-                    FillCircle(radius, Color.FromName(parameters[1]));
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for fillcir command.");
-                }
-            }
+            //else if (command.StartsWith("colrec"))
+            //{
+            //    // Example: colrect(100, 50, Color.Red)
+            //    string[] parameters = ExtractParameters(command);
+            //    if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
+            //    {
+            //        FillRectangle(width, height, Color.FromName(parameters[2]));
+            //    }
+            //    else
+            //    {
+            //        throw new ArgumentException("Invalid parameters for colrect command.");
+            //    }
+            //}
+            //else if (command.StartsWith("coltri"))
+            //{
+            //    // Example: coltri(100, 50, Color.Blue)
+            //    string[] parameters = ExtractParameters(command);
+            //    if (parameters.Length == 3 && int.TryParse(parameters[0], out int width) && int.TryParse(parameters[1], out int height) && Color.FromName(parameters[2]) != null)
+            //    {
+            //        FillTriangle(width, height, Color.FromName(parameters[2]));
+            //    }
+            //    else
+            //    {
+            //        throw new ArgumentException("Invalid parameters for coltri command.");
+            //    }
+            //}
+            //else if (command.StartsWith("colcir"))
+            //{
+            //    // Example: colcir(30, Color.Green)
+            //    string[] parameters = ExtractParameters(command);
+            //    if (parameters.Length == 2 && int.TryParse(parameters[0], out int radius) && Color.FromName(parameters[1]) != null)
+            //    {
+            //        FillCircle(radius, Color.FromName(parameters[1]));
+            //    }
+            //    else
+            //    {
+            //        throw new ArgumentException("Invalid parameters for fillcir command.");
+            //    }
+            //}
             else if (command.StartsWith("rds"))
             {
                 DrawRandomShape();
@@ -283,34 +279,33 @@ namespace GraphicalProgrammingLanguage
                 // Example: call myFunction(50, Color.Red)
                 CallFunction(command);
             }
-
-
-
             else
                     {
                     throw new ArgumentException($"Unknown command: {command}");
                     }
                 }
 
-            private void DrawTo(string command)
+        private void DrawTo(string command)
+        {
+            string[] parameters = ExtractParameters(command);
+            if (parameters.Length >= 2)
             {
-                string[] parameters = ExtractParameters(command);
-                if (parameters.Length == 2)
-                {
-                    int x = GetParameterValue(parameters[0]);
-                    int y = GetParameterValue(parameters[1]);
-                    semaphore.Wait();
-                    drawingGraphics.DrawLine(Pens.Black, penPosition, new Point(x, y));
-                    penPosition = new Point(x, y);
-                    semaphore.Release();
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for drawto command.");
-                }
-            }
+                int x = GetParameterValue(parameters[0]);
+                int y = GetParameterValue(parameters[1]);
+                Color color = GetColorParameter(parameters.Length > 2 ? parameters[2] : null);
 
-            private void MoveTo(string command)
+                semaphore.Wait();
+                drawingGraphics.DrawLine(new Pen(color), penPosition, new Point(x, y));
+                penPosition = new Point(x, y);
+                semaphore.Release();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for drawto command.");
+            }
+        }
+
+        private void MoveTo(string command)
             {
                 string[] parameters = ExtractParameters(command);
                 if (parameters.Length == 2)
@@ -420,17 +415,20 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException("Invalid 'set' command format");
             }
         }
-        private void SetDrawingColor(Color color)
-        {
-            currentDrawingColor = color;
-        }
+        //private void SetDrawingColor(Color color)
+        //{
+        //    currentDrawingColor = color;
+        //}
         private void DrawTriangle(string command)
         {
             string[] parameters = ExtractParameters(command);
-            if (parameters.Length == 2)
+            if (parameters.Length >= 2)
             {
                 int baseLength = GetParameterValue(parameters[0]);
                 int height = GetParameterValue(parameters[1]);
+                Color penColor = GetColorParameter(parameters.Length > 2 ? parameters[2] : null);
+                Color fillColor = GetColorParameter(parameters.Length > 3 ? parameters[3] : null);
+
                 semaphore.Wait();
                 Point[] points =
                 {
@@ -438,7 +436,8 @@ namespace GraphicalProgrammingLanguage
             new Point(penPosition.X + baseLength, penPosition.Y),
             new Point(penPosition.X, penPosition.Y + height)
         };
-                drawingGraphics.DrawPolygon(Pens.Black, points);
+                drawingGraphics.FillPolygon(new SolidBrush(fillColor), points);
+                drawingGraphics.DrawPolygon(new Pen(penColor), points);
                 penPosition = new Point(penPosition.X + baseLength, penPosition.Y);
                 semaphore.Release();
             }
@@ -450,11 +449,15 @@ namespace GraphicalProgrammingLanguage
         private void DrawCircle(string command)
         {
             string[] parameters = ExtractParameters(command);
-            if (parameters.Length == 1)
+            if (parameters.Length >= 1)
             {
                 int radius = GetParameterValue(parameters[0]);
+                Color penColor = GetColorParameter(parameters.Length > 1 ? parameters[1] : null);
+                Color fillColor = GetColorParameter(parameters.Length > 2 ? parameters[2] : null);
+
                 semaphore.Wait();
-                drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, radius * 2, radius * 2);
+                drawingGraphics.FillEllipse(new SolidBrush(fillColor), penPosition.X, penPosition.Y, radius * 2, radius * 2);
+                drawingGraphics.DrawEllipse(new Pen(penColor), penPosition.X, penPosition.Y, radius * 2, radius * 2);
                 penPosition = new Point(penPosition.X + radius * 2, penPosition.Y);
                 semaphore.Release();
             }
@@ -467,12 +470,16 @@ namespace GraphicalProgrammingLanguage
         private void DrawRectangle(string command)
         {
             string[] parameters = ExtractParameters(command);
-            if (parameters.Length == 2)
+            if (parameters.Length >= 2)
             {
                 int width = GetParameterValue(parameters[0]);
                 int height = GetParameterValue(parameters[1]);
+                Color penColor = GetColorParameter(parameters.Length > 2 ? parameters[2] : null);
+                Color fillColor = GetColorParameter(parameters.Length > 3 ? parameters[3] : null);
+
                 semaphore.Wait();
-                drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, width, height);
+                drawingGraphics.FillRectangle(new SolidBrush(fillColor), penPosition.X, penPosition.Y, width, height);
+                drawingGraphics.DrawRectangle(new Pen(penColor), penPosition.X, penPosition.Y, width, height);
                 penPosition = new Point(penPosition.X + width, penPosition.Y);
                 semaphore.Release();
             }
@@ -621,6 +628,7 @@ namespace GraphicalProgrammingLanguage
                 throw new ArgumentException($"Variable '{operand}' not found");
             }
         }
+       
         //private string ExtractFunctionName(string command)
         //{
         //    int startIndex = command.IndexOf("function") + "function".Length;
@@ -702,6 +710,54 @@ namespace GraphicalProgrammingLanguage
             else
             {
                 throw new ArgumentException($"Invalid function call syntax: {command}");
+            }
+        }
+        private Color GetColorParameter(string colorParameter)
+        {
+            if (colorParameter != null)
+            {
+                try
+                {
+                    return Color.FromName(colorParameter);
+                }
+                catch (Exception)
+                {
+                    throw new ArgumentException("Invalid color name.");
+                }
+            }
+            return Color.Black; // Default color if not specified
+        }
+        public void DrawPredefinedShape(string shapeName)
+        {
+            Random random = new Random();
+
+            switch (shapeName.ToLower())
+            {
+                case "circle":
+                    int circleRadius = 50;
+                    Color circleColor = Color.Red;
+                    semaphore.Wait();
+                    drawingGraphics.DrawEllipse(Pens.Black, penPosition.X, penPosition.Y, circleRadius * 2, circleRadius * 2);
+                    drawingGraphics.FillEllipse(new SolidBrush(circleColor), penPosition.X, penPosition.Y, circleRadius * 2, circleRadius * 2);
+                    penPosition = new Point(penPosition.X + circleRadius * 2, penPosition.Y);
+                    semaphore.Release();
+                    break;
+
+                case "rectangle":
+                    int rectangleWidth = 50;
+                    int rectangleHeight = 30;
+                    Color rectangleColor = Color.Blue;
+                    semaphore.Wait();
+                    drawingGraphics.DrawRectangle(Pens.Black, penPosition.X, penPosition.Y, rectangleWidth, rectangleHeight);
+                    drawingGraphics.FillRectangle(new SolidBrush(rectangleColor), penPosition.X, penPosition.Y, rectangleWidth, rectangleHeight);
+                    penPosition = new Point(penPosition.X + rectangleWidth, penPosition.Y);
+                    semaphore.Release();
+                    break;
+
+                // Add more predefined shapes as needed
+
+                default:
+                    throw new ArgumentException($"Unknown shape: {shapeName}");
             }
         }
     }
