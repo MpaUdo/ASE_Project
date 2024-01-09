@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             TextBoxSCMDL = new TextBox();
             BtnRun = new Button();
@@ -38,7 +37,6 @@
             pictureBoxDraw = new PictureBox();
             btnClear = new Button();
             labelTab = new Label();
-            contextMenuStrip1 = new ContextMenuStrip(components);
             menuStrip1 = new MenuStrip();
             ToolStripMenuItemopen = new ToolStripMenuItem();
             ToolStripMenuItemsave = new ToolStripMenuItem();
@@ -135,11 +133,6 @@
             labelTab.TabIndex = 9;
             labelTab.Text = "An EDVAC computer 1949";
             // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
-            // 
             // menuStrip1
             // 
             menuStrip1.Items.AddRange(new ToolStripItem[] { ToolStripMenuItemopen, ToolStripMenuItemsave });
@@ -201,7 +194,6 @@
         private PictureBox pictureBoxDraw;
         private Button btnClear;
         private Label labelTab;
-        private ContextMenuStrip contextMenuStrip1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem ToolStripMenuItemopen;
         private ToolStripMenuItem ToolStripMenuItemsave;
